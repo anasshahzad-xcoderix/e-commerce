@@ -1,10 +1,8 @@
 <?php
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
@@ -28,8 +26,6 @@ Route::get('/contact', [StoreController::class, 'contact'])->name('contact');
 
 
 Route::get('/login', [SocialAuthController::class, 'showLogin'])->name('login');
-Route::get('/auth/github', [SocialAuthController::class, 'redirect'])->name('github.login');
-Route::get('/auth/github/callback', [SocialAuthController::class, 'callback']);
 Route::post('/logout', [SocialAuthController::class, 'logout'])->name('logout');
 
 Route::get('/dashboard', [PageController::class, 'dashboard'])
@@ -50,8 +46,6 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
 
 
-    Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.login');
-Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
 Route::post('/logout', [GoogleController::class, 'logout'])->name('logout');
 
 
@@ -83,5 +77,3 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
 Route::resource('categories', CategoryController::class)->except('show');
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/books/create', [App\Http\Controllers\BookController::class, 'create'])->name('books.create');
-Route::post('/books', [BookController::class, 'store'])->name('books.store');
