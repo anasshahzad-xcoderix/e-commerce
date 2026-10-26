@@ -46,7 +46,6 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
 
 
-Route::post('/logout', [GoogleController::class, 'logout'])->name('logout');
 
 
 

@@ -6,7 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 
 class StoreController extends Controller
-{
+{   
     private function page(string $section, string $title)
     {
         $products = Product::with('category')->latest()->get();
