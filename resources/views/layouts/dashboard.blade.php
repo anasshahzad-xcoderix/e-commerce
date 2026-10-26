@@ -23,7 +23,6 @@
             <a href="{{ route('makers') }}" class="nav-link">Makers</a>
             <a href="{{ route('help') }}" class="nav-link">Help</a>
             <a href="{{ route('admin.products.index') }}" class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">Products</a>
-                        <a href="{{ route('admin.books.index') }}" class="nav-link {{ request()->routeIs('admin.books.*') ? 'active' : '' }}">Books</a>
 
             <a href="{{ route('analytics') }}#regions" class="nav-link">Regions</a>
             <a href="{{ url('/') }}" class="nav-link">← Back to store</a>

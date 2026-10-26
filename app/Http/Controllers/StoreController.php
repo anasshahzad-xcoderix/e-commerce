@@ -27,7 +27,7 @@ class StoreController extends Controller
 
     public function dailySale()
     {
-        return $this->page('sale', 'Daily sale');
+        return $this->page('daily-sale', 'Daily sale');
     }
 
     public function makers()

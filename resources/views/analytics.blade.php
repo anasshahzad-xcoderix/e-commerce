@@ -21,8 +21,7 @@
        <nav class="s-nav">
     <a href="#overview" class="nav-link active">Overview</a>
     <a href="{{ route('shop') }}" class="nav-link">Shop</a>
-    <a href="{{ route('categories') }}" class="nav-link">Categories</a>
-    <a href="{{ route('daily-sale') }}" class="nav-link">Daily sale</a>
+<a href="{{ route('admin.categories.index') }}" class="nav-link">Categories</a>    <a href="{{ route('daily-sale') }}" class="nav-link">Daily sale</a>
     <a href="{{ route('makers') }}" class="nav-link">Makers</a>
     <a href="{{ route('help') }}" class="nav-link">Help</a>
     <a href="#products" class="nav-link">Products</a>
