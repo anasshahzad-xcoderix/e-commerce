@@ -24,7 +24,7 @@
 <a href="{{ route('admin.categories.index') }}" class="nav-link">Categories</a>    <a href="{{ route('daily-sale') }}" class="nav-link">Daily sale</a>
     <a href="{{ route('makers') }}" class="nav-link">Makers</a>
     <a href="{{ route('help') }}" class="nav-link">Help</a>
-    <a href="#products" class="nav-link">Products</a>
+            <a href="{{ route('admin.products.index') }}" class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">Products</a>
     <a href="#regions" class="nav-link">Regions</a>
     <a href="{{ url('/') }}" class="nav-link">← Back to store</a>
 </nav>
