@@ -1,0 +1,33 @@
+.admin-wrap { max-width: 1000px; margin: 0 auto; padding: 32px 24px; }
+.admin-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.admin-head h1, .admin-wrap > h1 { color: #14233b; margin-bottom: 18px; }
+
+.btn-primary { display: inline-block; padding: 10px 18px; border: 0; border-radius: 999px; background: #14233b;
+               color: #fff; font-weight: 700; text-decoration: none; cursor: pointer; }
+.btn-primary:hover { background: #1f7a6d; }
+
+.admin-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; }
+.admin-table th, .admin-table td { padding: 12px 14px; border-bottom: 1px solid #eef1f5; text-align: left; }
+.admin-table th { background: #f5f7fa; font-size: 13px; color: #5b6b82; }
+.actions { display: flex; gap: 8px; align-items: center; }
+.actions form { margin: 0; }
+.btn-edit, .btn-delete { padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 600;
+                         text-decoration: none; border: 1px solid; background: #fff; cursor: pointer; }
+.btn-edit { color: #1f7a6d; border-color: #1f7a6d; }
+.btn-delete { color: #b42318; border-color: #b42318; }
+
+.admin-form { background: #fff; padding: 24px; border-radius: 12px; max-width: 560px; }
+.admin-form label { display: block; font-size: 14px; font-weight: 600; color: #14233b; margin: 14px 0 6px; }
+.admin-form input, .admin-form select, .admin-form textarea { width: 100%; padding: 10px 12px;
+        border: 1.5px solid #d6dde8; border-radius: 10px; font-size: 15px; font-family: inherit; }
+.admin-form button { margin-top: 20px; }
+
+.alert-ok { background: #e7f8ee; color: #167a43; padding: 12px 14px; border-radius: 10px; margin-bottom: 16px; }
+.alert-err { background: #fdecec; color: #b42318; padding: 12px 14px; border-radius: 10px; margin-bottom: 16px; }
+.alert-err p { margin: 2px 0; }
+.img-preview { width: 120px; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; }
+.thumb { width: 48px; height: 48px; object-fit: cover; border-radius: 8px; }
+.thumb-icon { width: 48px; height: 48px; }
+
+
+
