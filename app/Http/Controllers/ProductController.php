@@ -21,18 +21,18 @@ class ProductController extends Controller
         return view('admin.products.create', compact('categories'));
     }
 
-    public function store(Request $request)
-    {
-        $data = $this->validateData($request);
+   public function store(StoreProductRequest $request)
+{
+    $data = $request->validated();
 
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('products', 'public');
-        }
-
-        Product::create($data);
-
-        return redirect()->route('admin.products.index')->with('success', 'Product has been added.');
+    if ($request->hasFile('image')) {
+        $data['image'] = $request->file('image')->store('products', 'public');
     }
+
+    Product::create($data);
+
+    return redirect()->route('admin.products.index')->with('success', 'Product add ho gaya.');
+}
 
     public function edit(Product $product)
     {
@@ -40,21 +40,21 @@ class ProductController extends Controller
         return view('admin.products.edit', compact('product', 'categories'));
     }
 
-    public function update(Request $request, Product $product)
-    {
-        $data = $this->validateData($request);
+   public function update(UpdateProductRequest $request, Product $product)
+{
+    $data = $request->validated();
 
-        if ($request->hasFile('image')) {
-            if ($product->image) {
-                Storage::disk('public')->delete($product->image);
-            }
-            $data['image'] = $request->file('image')->store('products', 'public');
+    if ($request->hasFile('image')) {
+        if ($product->image) {
+            Storage::disk('public')->delete($product->image);
         }
-
-        $product->update($data);
-
-        return redirect()->route('admin.products.index')->with('success', 'Product has been updated.');
+        $data['image'] = $request->file('image')->store('products', 'public');
     }
+
+    $product->update($data);
+
+    return redirect()->route('admin.products.index')->with('success', 'Product update ho gaya.');
+}
 
     public function destroy(Product $product)
     {

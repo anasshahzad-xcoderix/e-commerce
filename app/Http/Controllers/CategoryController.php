@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
+
+
 
 class CategoryController extends Controller
 {
@@ -19,31 +23,30 @@ class CategoryController extends Controller
         return view('admin.categories.create');
     }
 
-    public function store(Request $request)
-    {
-        $data = $this->validateData($request);
-        // this should be done using validation request
-        $data['slug'] = Str::slug($data['name']);
+   public function store(StoreCategoryRequest $request)
+{
+    $data = $request->validated();
+    $data['slug'] = Str::slug($data['name']);
 
-        Category::create($data);
+    Category::create($data);
 
-        return redirect()->route('admin.categories.index')->with('success', 'Category has been added.');
-    }
+    return redirect()->route('admin.categories.index')->with('success', 'Collection add ho gaya.');
+}
 
     public function edit(Category $category)
     {
         return view('admin.categories.edit', compact('category'));
     }
 
-    public function update(Request $request, Category $category)
-    {
-        $data = $this->validateData($request, $category->id);
-        $data['slug'] = Str::slug($data['name']);
+   public function update(UpdateCategoryRequest $request, Category $category)
+{
+    $data = $request->validated();
+    $data['slug'] = Str::slug($data['name']);
 
-        $category->update($data);
+    $category->update($data);
 
-        return redirect()->route('admin.categories.index')->with('success', 'Category has been updated.');
-    }
+    return redirect()->route('admin.categories.index')->with('success', 'Collection update ho gaya.');
+}
 
     public function destroy(Category $category)
     {

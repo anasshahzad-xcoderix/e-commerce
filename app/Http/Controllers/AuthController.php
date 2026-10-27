@@ -55,6 +55,15 @@ return redirect()->intended(route('analytics'));
         ->withErrors(['email' => 'wrong email or password'])
         ->onlyInput('email');
 }
+public function logout(Request $request)
+{
+    Auth::logout();
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect()->route('login');
+}
 
 }
 

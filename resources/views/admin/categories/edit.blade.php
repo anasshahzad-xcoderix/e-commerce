@@ -9,9 +9,10 @@
 
 @section('content')
 <div class="cat-wrap">
-    <form method="POST" action="{{ route('admin.categories.update', $category) }}" class="cat-form">
-        @method('PUT')
-        @include('admin.categories._form', ['submit' => 'Update'])
-    </form>
+    @include('admin.categories._form', [
+        'action' => route('admin.categories.update', $category),
+        'method' => 'PUT',
+        'submit' => 'Update',
+    ])
 </div>
 @endsection

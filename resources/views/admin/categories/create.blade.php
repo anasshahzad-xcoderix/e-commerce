@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
-@section('title', 'New collection')
-@section('page-title', 'New collection')
-@section('page-sub', 'Add category')
+@section('title', 'New catrgory')
+@section('page-title', 'New categoty')
+@section('page-sub', 'Add Category')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/categories.css') }}">
@@ -9,8 +9,9 @@
 
 @section('content')
 <div class="cat-wrap">
-    <form method="POST" action="{{ route('admin.categories.store') }}" class="cat-form">
-        @include('admin.categories._form', ['submit' => 'Save'])
-    </form>
+    @include('admin.categories._form', [
+        'action' => route('admin.categories.store'),
+        'submit' => 'Save',
+    ])
 </div>
-@endsection 
+@endsection
