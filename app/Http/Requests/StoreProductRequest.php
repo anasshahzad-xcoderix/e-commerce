@@ -27,15 +27,15 @@ class StoreProductRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'category_id.required' => 'Collection chunna zaroori hai.',
-            'category_id.exists'   => 'Chuni hui collection maujood nahi hai.',
-            'name.required'        => 'Product ka naam zaroori hai.',
-            'price.required'       => 'Price zaroori hai.',
-            'price.numeric'        => 'Price number honi chahiye.',
-            'stock.required'       => 'Stock zaroori hai.',
-            'image.image'          => 'Sirf image file upload karein.',
-            'image.mimes'          => 'Image JPG, PNG ya WEBP honi chahiye.',
-            'image.max'            => 'Image 2 MB se choti honi chahiye.',
+            'category_id.required' => 'choose the category.',
+            'category_id.exists'   => 'this does not exist.',
+            'name.required'        => 'product name is required.',
+            'price.required'       => 'product price is required.',
+            'price.numeric'        => 'price always in the number.',
+            'stock.required'       => 'product stock is required.',
+            'image.image'          => 'upload only image file.',
+            'image.mimes'          => 'Image only is jpg,png.',
+            'image.max'            => 'Image size is always contain 2 MB .',
         ];
     }
 }

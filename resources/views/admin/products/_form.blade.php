@@ -1,5 +1,4 @@
-<form method="POST" action="{{ $action }}" class="admin-form" enctype="multipart/form-data">
-    @isset($method)
+<form method="POST" action="{{ $action }}" class="admin-form" novalidate enctype="multipart/form-data">    @isset($method)
         @method($method)
     @endisset
 
@@ -40,18 +39,25 @@
         @error('stock') <small class="err">{{ $message }}</small> @enderror
     </div>
 
-    <div class="field">
-        <label for="image">Product image</label>
-        @if(!empty($product->image))
-            <img src="{{ asset('storage/' . $product->image) }}" alt="" class="img-preview">
-        @endif
-        <input type="file" id="image" name="image" accept="image/*">
-        <small>Max 2 MB. JPG, PNG ya WEBP.</small>
-        @error('image') <small class="err">{{ $message }}</small> @enderror
-    </div>
+   <div class="field">
+    <label for="image">Product image</label>
 
-    <div class="field">
-        <label for="art">Icon (agar image na ho)</label>
+    <input type="file" id="image" name="image" accept="image/*">
+    <small>Max 2 MB. JPG, PNG ya WEBP.</small>
+    @error('image') <small class="err">{{ $message }}</small> @enderror
+
+    <div class="img-preview-wrap">
+        @if(isset($product) && $product->image)
+            <p class="img-label">Current image</p>
+            <img id="currentImage" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="img-preview">
+        @endif
+
+        <p class="img-label" id="newLabel" style="display:none;">New image (preview)</p>
+        <img id="imagePreview" src="" alt="" class="img-preview" style="display:none;">
+    </div>
+</div>
+ <div class="field">
+        <label for="art">Icon (if there is no image)</label>
         <select id="art" name="art">
             @foreach(['basket','mug','vase','lamp','rug','bowl','plant','stool'] as $icon)
                 <option value="{{ $icon }}" @selected(old('art', $product->art ?? 'mug') === $icon)>{{ ucfirst($icon) }}</option>
@@ -59,5 +65,32 @@
         </select>
     </div>
 
+   
     <button type="submit" class="btn-primary">{{ $submit ?? 'Save' }}</button>
 </form>
+
+
+<script>
+(function () {
+    const input = document.getElementById('image');
+    const preview = document.getElementById('imagePreview');
+    const newLabel = document.getElementById('newLabel');
+    if (!input || !preview) return;
+
+    input.addEventListener('change', function () {
+        const file = input.files && input.files[0];
+        if (!file) {
+            preview.style.display = 'none';
+            newLabel.style.display = 'none';
+            preview.removeAttribute('src');
+            return;
+        }
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+        newLabel.style.display = 'block';
+    });
+})();
+</script>
+
+
+

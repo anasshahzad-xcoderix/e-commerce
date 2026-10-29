@@ -20,6 +20,6 @@ class ContactController extends Controller
             'message' => 'required|string|min:5',
         ]);
 
-        return back()->with('success', 'Shukriya ' . $data['name'] . '! Aap ka message mil gaya hai.');
+        return back()->with('success', 'thankyou ' . $data['name'] . 'massage will be receive soon.');
     }
 }

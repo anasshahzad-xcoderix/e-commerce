@@ -9,6 +9,10 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoreController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Controllers\StoreProductController;
+use App\Http\Controllers\CartController;
+
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -52,9 +56,13 @@ Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('categories', CategoryController::class)->except('show');
     Route::resource('products', ProductController::class)->except('show');
-    Route::resource('books', BookController::class)->except('show');
 });
 
 Route::resource('categories', CategoryController::class)->except('show');
 Route::get('/products', [ProductController::class, 'index'])->name('products');
 
+Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+Route::patch('/cart/{id}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/checkout', [CartController::class, 'placeOrder'])->name('checkout.place');

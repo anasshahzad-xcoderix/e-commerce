@@ -47,9 +47,12 @@
                     <h3 class="yp-title">{{ $product->name }}</h3>
                     <p class="yp-desc">{{ \Illuminate\Support\Str::limit($product->description, 80) }}</p>
                     <div class="yp-bottom">
-                        <strong class="yp-price">Rs {{ number_format($product->price) }}</strong>
-                        <button type="button" class="add-btn">Add to cart</button>
-                    </div>
+    <span class="yp-price">Rs {{ number_format($product->price) }}</span>
+    <form method="POST" action="{{ route('cart.add', $product) }}">
+        @csrf
+        <button type="submit" class="add-btn">Add to cart</button>
+    </form>
+</div>
                 </div>
             </article>
         @empty
