@@ -109,7 +109,7 @@ td.quote { font-style: italic; color: #b7c2dc; white-space: normal; }
                transition: transform .3s ease; z-index: 50; background: #0e1530; }
     .sidebar.open { transform: none; }
     .menu-btn { display: inline-block; }
-}
+}   
 @media (max-width: 560px) {
     .regions { grid-template-columns: 1fr; }
     .kpi strong { font-size: 22px; }

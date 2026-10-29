@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
-
+use Illuminate\Http\Request;
 class StoreController extends Controller
 {   
     private function page(string $section, string $title)
@@ -14,11 +14,27 @@ class StoreController extends Controller
 
         return view('pages.section', compact('section', 'title', 'products', 'categories'));
     }
+public function shop(Request $request)
+{
+    $categories = Category::orderBy('name')->get();
 
-    public function shop()
-    {
-        return $this->page('shop', 'Shop');
-    }
+    $products = Product::with('category')
+        ->when($request->filled('cat'), function ($q) use ($request) {
+            $q->whereHas('category', fn ($c) => $c->where('slug', $request->cat));
+        })
+        ->when($request->filled('q'), fn ($q) => $q->where('name', 'like', '%' . $request->q . '%'))
+        ->when($request->sort === 'low', fn ($q) => $q->orderBy('price'))
+        ->when($request->sort === 'high', fn ($q) => $q->orderByDesc('price'))
+        ->when(!in_array($request->sort, ['low', 'high']), fn ($q) => $q->latest())
+        ->get();
+
+    return view('pages.section', [
+        'section'    => 'shop',
+        'title'      => 'Shop',
+        'products'   => $products,
+        'categories' => $categories,
+    ]);
+}
 
     public function categories()
     {
@@ -46,3 +62,4 @@ class StoreController extends Controller
         return $this->page('contact', 'Contact');
     }
 }
+

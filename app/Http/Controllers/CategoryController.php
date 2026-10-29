@@ -30,7 +30,7 @@ class CategoryController extends Controller
 
     Category::create($data);
 
-    return redirect()->route('admin.categories.index')->with('success', 'Collection add ho gaya.');
+    return redirect()->route('admin.categories.index')->with('success', 'Category will be add.');
 }
 
     public function edit(Category $category)
@@ -45,7 +45,7 @@ class CategoryController extends Controller
 
     $category->update($data);
 
-    return redirect()->route('admin.categories.index')->with('success', 'Collection update ho gaya.');
+    return redirect()->route('admin.categories.index')->with('success', 'Category will be add.');
 }
 
     public function destroy(Category $category)
