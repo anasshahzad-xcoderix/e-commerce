@@ -13,30 +13,29 @@ use App\Http\Requests\UpdateProductRequest;
 
 class ProductController extends Controller
 {
-    public function index()
-    {
+         public function index()
+         {
         $products = Product::with('category')->latest()->paginate(10);
-        return view('admin.products.index', compact('products'));
+             return view('admin.products.index', compact('products'));
     }
-
-    public function create()
+     
+              public function create()
     {
-        $categories = Category::orderBy('name')->get();
-        return view('admin.products.create', compact('categories'));
+             $categories = Category::orderBy('name')->get();
+            return view('admin.products.create', compact('categories'));
+         }
+         public function store(StoreProductRequest $request)
+         {
+                 $data = $request->validated();
+
+            if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('products', 'public');
+            }
+
+            Product::create($data);
+
+        return redirect()->route('admin.products.index')->with('success', 'Product add ho gaya.');
     }
-
-   public function store(StoreProductRequest $request)
-{
-    $data = $request->validated();
-
-    if ($request->hasFile('image')) {
-        $data['image'] = $request->file('image')->store('products', 'public');
-    }
-
-    Product::create($data);
-
-    return redirect()->route('admin.products.index')->with('success', 'Product add ho gaya.');
-}
 
     public function edit(Product $product)
     {
