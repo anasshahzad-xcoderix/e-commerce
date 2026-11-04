@@ -14,3 +14,6 @@
 .actions form { display: inline; }
 .alert-ok { background: #064e3b; color: #a7f3d0; padding: 10px; border-radius: 8px; margin-bottom: 12px; }
 .alert-err { background: #7f1d1d; color: #fecaca; padding: 10px; border-radius: 8px; margin-bottom: 12px; }
+.cat-wrap {
+    padding: 40px 30px;
+}

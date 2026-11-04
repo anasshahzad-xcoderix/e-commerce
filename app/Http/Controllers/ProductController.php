@@ -34,7 +34,7 @@ class ProductController extends Controller
 
             Product::create($data);
 
-        return redirect()->route('admin.products.index')->with('success', 'Product add ho gaya.');
+        return redirect()->route('admin.products.index')->with('success', 'Product has been created.');
     }
 
     public function edit(Product $product)
@@ -56,7 +56,7 @@ class ProductController extends Controller
 
     $product->update($data);
 
-    return redirect()->route('admin.products.index')->with('success', 'Product update ho gaya.');
+    return redirect()->route('admin.products.index')->with('success', 'Product has been updated.');
 }
 
     public function destroy(Product $product)
