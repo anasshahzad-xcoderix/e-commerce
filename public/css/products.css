@@ -39,3 +39,7 @@ td.actions form {
     display: inline-block;
     margin: 0 4px 0 0;
 }
+nav[role="navigation"] svg {
+    width: 16px;
+    height: 16px;
+}

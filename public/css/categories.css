@@ -17,3 +17,7 @@
 .cat-wrap {
     padding: 40px 30px;
 }
+nav[role="navigation"] svg {
+    width: 16px;
+    height: 16px;
+}
