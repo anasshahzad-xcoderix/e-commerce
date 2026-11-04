@@ -59,38 +59,42 @@
         @forelse($products as $product)
             @php $cat = $product->getRelationValue('category'); @endphp
 
-            <article class="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+           <article class="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
 
-                <div class="relative h-56 overflow-hidden bg-slate-100">
-                    @if($product->image)
-                        <img src="{{ asset('storage/' . $product->image) }}"
-                             alt="{{ $product->name }}"
-                             class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
-                    @else
-                        <div class="flex h-full items-center justify-center">
-                            <x-icon name="{{ $product->art ?? 'mug' }}" size="96" />
-                        </div>
-                    @endif
-                </div>
+    <a href="{{ route('product.show', $product) }}" class="relative block h-56 overflow-hidden bg-slate-100">
+        @if($product->image)
+            <img src="{{ asset('storage/' . $product->image) }}"
+                 alt="{{ $product->name }}"
+                 class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+        @else
+            <div class="flex h-full items-center justify-center">
+                <x-icon name="{{ $product->art ?? 'mug' }}" size="96" />
+            </div>
+        @endif
+    </a>
 
-                <div class="flex flex-1 flex-col p-5">
-                    <span class="text-xs font-semibold uppercase tracking-wider text-amber-600">{{ $cat?->name }}</span>
-                    <h3 class="mt-1 text-lg font-bold text-slate-900">{{ $product->name }}</h3>
-                    <p class="mt-1 line-clamp-2 text-sm text-slate-500">{{ \Illuminate\Support\Str::limit($product->description, 80) }}</p>
+    <div class="flex flex-1 flex-col p-5">
+        <span class="text-xs font-semibold uppercase tracking-wider text-amber-600">{{ $cat?->name }}</span>
 
-                    <div class="mt-auto flex items-center justify-between pt-5">
-                        <span class="text-lg font-extrabold text-slate-900">Rs {{ number_format($product->price) }}</span>
+        <a href="{{ route('product.show', $product) }}">
+            <h3 class="mt-1 text-lg font-bold text-slate-900 hover:text-amber-600">{{ $product->name }}</h3>
+        </a>
 
-                        <form method="POST" action="{{ route('cart.add', $product) }}">
-                            @csrf
-                            <button type="submit"
-                                    class="rounded-full bg-amber-400 px-5 py-2 text-sm font-bold text-slate-900 shadow transition hover:bg-amber-500 active:scale-95">
-                                Add to cart
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </article>
+        <p class="mt-1 line-clamp-2 text-sm text-slate-500">{{ \Illuminate\Support\Str::limit($product->description, 80) }}</p>
+
+        <div class="mt-auto flex items-center justify-between pt-5">
+            <span class="text-lg font-extrabold text-slate-900">Rs {{ number_format($product->price) }}</span>
+
+            <form method="POST" action="{{ route('cart.add', $product) }}">
+                @csrf
+                <button type="submit"
+                        class="rounded-full bg-amber-400 px-5 py-2 text-sm font-bold text-slate-900 shadow transition hover:bg-amber-500 active:scale-95">
+                    Add to cart
+                </button>
+            </form>
+        </div>
+    </div>
+</article>
         @empty
             <p class="col-span-full py-16 text-center text-slate-500">there is no product will be find in this filter .</p>
         @endforelse

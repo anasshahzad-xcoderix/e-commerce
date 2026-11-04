@@ -61,5 +61,17 @@ public function shop(Request $request)
     {
         return $this->page('contact', 'Contact');
     }
+    public function productShow(Product $product)
+{
+    $product->load('category');
+
+    $related = Product::with('category')
+        ->where('category_id', $product->category_id)
+        ->where('id', '!=', $product->id)
+        ->limit(4)
+        ->get();
+
+    return view('pages.product', compact('product', 'related'));
+}
 }
 
