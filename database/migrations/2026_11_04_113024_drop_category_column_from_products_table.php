@@ -1,24 +1,24 @@
 <?php
-
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-
+  
+  use Illuminate\Database\Migrations\Migration;
+  use Illuminate\Database\Schema\Blueprint;
+  use Illuminate\Support\Facades\Schema;
+ 
 return new class extends Migration
 {
-    public function up(): void
-    {
+          public function up(): void
+          {
         if (Schema::hasColumn('products', 'category')) {
-            Schema::table('products', function (Blueprint $table) {
+                        Schema::table('products', function (Blueprint $table) {
                 $table->dropColumn('category');
-            });
+                  });
         }
     }
 
-    public function down(): void
-    {
+         public function down(): void
+         {
         Schema::table('products', function (Blueprint $table) {
-            $table->string('category')->nullable();
-        });
-    }
+                 $table->string('category')->nullable();
+             });
+         }
 };
