@@ -1,14 +1,17 @@
 @extends('layouts.dashboard')
-@section('title', 'New catrgory')
-@section('page-title', 'New categoty')
-@section('page-sub', 'Add Category')
+@section('title', 'New category')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/categories.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/products.css') }}">
 @endpush
 
 @section('content')
-<div class="cat-wrap">
+<div class="admin-wrap">
+    <div class="page-head">
+        <h1>New category</h1>
+        <p>ADD CATEGORY</p>
+    </div>
+
     @include('admin.categories._form', [
         'action' => route('admin.categories.store'),
         'submit' => 'Save',

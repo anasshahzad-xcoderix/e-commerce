@@ -1,14 +1,17 @@
 @extends('layouts.dashboard')
-@section('title', 'Edit collection')
-@section('page-title', 'Edit collection')
-@section('page-sub', $category->name)
+@section('title', 'Edit category')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/categories.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/products.css') }}">
 @endpush
 
 @section('content')
-<div class="cat-wrap">
+<div class="admin-wrap">
+    <div class="page-head">
+        <h1>Edit category</h1>
+        <p>EDIT CATEGORY</p>
+    </div>
+
     @include('admin.categories._form', [
         'action' => route('admin.categories.update', $category),
         'method' => 'PUT',

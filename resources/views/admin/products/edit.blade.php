@@ -2,9 +2,12 @@
 @section('title', 'Edit product')
 
 @section('content')
-    <div class="page-head">
-        <h1>Edit product</h1>
-        <p>EDIT PRODUCT</p>
+<div class="admin-wrap">
+    <div class="admin-head">
+        <div>
+            <h1>Edit product</h1>
+            <p>EDIT PRODUCT</p>
+        </div>
     </div>
 
     @include('admin.products._form', [
@@ -12,4 +15,5 @@
         'method' => 'PUT',
         'submit' => 'Update',
     ])
+</div>
 @endsection
