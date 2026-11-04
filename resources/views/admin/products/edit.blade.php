@@ -1,17 +1,15 @@
-@extends('layouts.app')
-@section('title', 'Product edit')
-
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/products.css') }}">
-@endpush
+@extends('layouts.dashboard')
+@section('title', 'Edit product')
 
 @section('content')
-<div class="admin-wrap">
-    <h1>Add Products</h1>
+    <div class="page-head">
+        <h1>Edit product</h1>
+        <p>EDIT PRODUCT</p>
+    </div>
+
     @include('admin.products._form', [
         'action' => route('admin.products.update', $product),
         'method' => 'PUT',
+        'submit' => 'Update',
     ])
-    <p><a href="{{ route('admin.products.index') }}">← Back to List</a></p>
-</div>
 @endsection

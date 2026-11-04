@@ -13,8 +13,7 @@
 @endphp
 
 <div id="shop-wrapper">
-<section class="mx-auto max-w-7xl px-4 py-10" id="shop">
-
+<section class="mx-auto max-w-7xl px-6 md:px-10 py-10" id="shop">
     <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
             <h2 class="text-4xl font-extrabold tracking-tight text-slate-900">The shop</h2>
@@ -25,9 +24,9 @@
             @if($activeCat)
                 <input type="hidden" name="cat" value="{{ $activeCat }}">
             @endif
-
+            
             <input type="search" name="q" value="{{ $search }}" placeholder="Search products..." class="{{ $field }} w-56">
-
+        
             <select name="sort" class="{{ $field }}">
                 <option value="featured" @selected($sort === 'featured')>Featured</option>
                 <option value="low" @selected($sort === 'low')>Price: low to high</option>

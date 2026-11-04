@@ -1,14 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 @section('title', 'New product')
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/products.css') }}">
-@endpush
-
 @section('content')
-<div class="admin-wrap">
-    <h1>New product</h1>
-    @include('admin.products._form', ['action' => route('admin.products.store')])
-    <p><a href="{{ route('admin.products.index') }}">← Back to List</a></p>
-</div>
+    <div class="page-head">
+        <h1>New product</h1>
+        <p>ADD PRODUCT</p>
+    </div>
+
+    @include('admin.products._form', [
+        'action' => route('admin.products.store'),
+        'submit' => 'Save',
+    ])
 @endsection
