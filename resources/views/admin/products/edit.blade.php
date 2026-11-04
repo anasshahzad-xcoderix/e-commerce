@@ -1,6 +1,10 @@
 @extends('layouts.dashboard')
 @section('title', 'Edit product')
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/products.css') }}">
+@endpush
+
 @section('content')
 <div class="admin-wrap">
     <div class="admin-head">
