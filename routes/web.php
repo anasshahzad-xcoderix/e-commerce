@@ -13,7 +13,6 @@ use Illuminate\Controllers\StoreProductController;
 use App\Http\Controllers\CartController;
 
 
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/shop', [StoreController::class, 'shop'])->name('shop');
@@ -61,9 +60,11 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 Route::resource('categories', CategoryController::class)->except('show');
 Route::get('/products', [ProductController::class, 'index'])->name('products');
 
-Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
-Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
-Route::patch('/cart/{id}', [CartController::class, 'update'])->name('cart.update');
-Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('cart.remove');
-Route::post('/checkout', [CartController::class, 'placeOrder'])->name('checkout.place');
 Route::get('/product/{product}', [StoreController::class, 'productShow'])->name('product.show');
+Route::middleware('auth')->group(function () {
+    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+    Route::patch('/cart/{id}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/checkout', [CartController::class, 'placeOrder'])->name('checkout.place');
+});

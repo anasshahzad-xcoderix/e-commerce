@@ -31,9 +31,7 @@
             </form>
         @endauth
 
-        <a href="#" class="cart-btn">Cart <span class="cart-count">0</span></a>
-
-        <button class="burger" id="burger" aria-label="Menu">
+<span class="cart-count">{{ auth()->check() ? \App\Models\CartItem::where('user_id', auth()->id())->sum('quantity') : 0 }}</span>        <button class="burger" id="burger" aria-label="Menu">
             <span></span><span></span><span></span>
         </button>
     </div>

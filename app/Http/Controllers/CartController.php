@@ -2,35 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CartItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
+
 class CartController extends Controller
 {
     public function add(Product $product)
     {
-        $cart = session('cart', []);
-
-        if (isset($cart[$product->id])) {
-            $cart[$product->id]['qty']++;
-        } else {
-            $cart[$product->id] = [
-                'id'    => $product->id,
-                'name'  => $product->name,
-                'price' => (float) $product->price,
-                'image' => $product->image,
-                'art'   => $product->art,
-                'qty'   => 1,
-            ];
-        }
-
-        session(['cart' => $cart]);
+        $item = CartItem::firstOrCreate(
+            ['user_id' => auth()->id(), 'product_id' => $product->id],
+            ['quantity' => 0]
+        );
+        $item->increment('quantity');
 
         return redirect()->route('checkout')->with('added', $product->name);
     }
 
     public function checkout()
     {
-        $cart = session('cart', []);
+        $items = CartItem::with('product')
+            ->where('user_id', auth()->id())
+            ->get();
+
+        $cart = $items->mapWithKeys(fn ($i) => [
+            $i->product_id => [
+                'id'    => $i->product_id,
+                'name'  => $i->product->name,
+                'price' => (float) $i->product->price,
+                'image' => $i->product->image,
+                'art'   => $i->product->art,
+                'qty'   => $i->quantity,
+            ],
+        ])->all();
+
         $subtotal = collect($cart)->sum(fn ($item) => $item['price'] * $item['qty']);
         $shipping = $subtotal > 0 ? 150 : 0;
 
@@ -41,36 +46,28 @@ class CartController extends Controller
     {
         $request->validate(['qty' => 'required|integer|min:0|max:99']);
 
-        $cart = session('cart', []);
+        $item = CartItem::where('user_id', auth()->id())->where('product_id', $id)->first();
 
-        if (isset($cart[$id])) {
+        if ($item) {
             if ((int) $request->qty === 0) {
-                unset($cart[$id]);
+                $item->delete();
             } else {
-                $cart[$id]['qty'] = (int) $request->qty;
+                $item->update(['quantity' => (int) $request->qty]);
             }
         }
-
-        session(['cart' => $cart]);
 
         return back();
     }
 
     public function remove($id)
     {
-        $cart = session('cart', []);
-        unset($cart[$id]);
-        session(['cart' => $cart]);
+        CartItem::where('user_id', auth()->id())->where('product_id', $id)->delete();
 
         return back();
     }
 
     public function placeOrder(Request $request)
     {
-        if (empty(session('cart', []))) {
-            return redirect()->route('checkout')->with('error', 'Cart khali hai.');
-        }
-
         $request->validate([
             'name'    => 'required|string|max:100',
             'phone'   => 'required|string|max:20',
@@ -81,8 +78,12 @@ class CartController extends Controller
             'address.required' => 'Pata zaroori hai.',
         ]);
 
-        // Demo: order abhi database mein save nahi hota
-        session()->forget('cart');
+        if (!CartItem::where('user_id', auth()->id())->exists()) {
+            return redirect()->route('checkout')->with('error', 'Cart khali hai.');
+        }
+
+        // Demo: order abhi table mein save nahi hota, sirf cart khali hota hai
+        CartItem::where('user_id', auth()->id())->delete();
 
         return redirect()->route('checkout')->with('ordered', true);
     }
