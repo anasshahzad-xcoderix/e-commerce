@@ -25,7 +25,7 @@
                 @if($product->image)
                     <img src="{{ asset('storage/' . $product->image) }}"
                          alt="{{ $product->name }}"
-                         class="aspect-[4/3] w-full object-cover sm:aspect-[16/10]">
+                         class="aspect-[4/3] w-full object-contain p-4 sm:aspect-[16/10]">
                 @else
                     <div class="flex aspect-[4/3] items-center justify-center sm:aspect-[16/10]">
                         <x-icon name="{{ $product->art ?? 'mug' }}" size="160" />
@@ -52,9 +52,28 @@
             </h1>
 
             {{-- Price box --}}
+            @php $onSale = $product->compare_price && $product->compare_price > $product->price; @endphp
+
             <div class="mt-5 rounded-2xl border-l-4 border-amber-400 bg-slate-50 p-5">
-                <p class="text-3xl font-extrabold text-slate-900">Rs {{ number_format($product->price) }}</p>
-                <p class="mt-2 text-sm font-semibold {{ $product->stock > 0 ? 'text-emerald-600' : 'text-red-600' }}">
+                <div class="flex flex-wrap items-end gap-3">
+                    <p class="text-3xl font-extrabold text-slate-900">Rs {{ number_format($product->price) }}</p>
+                    @if($onSale)
+                        <p class="pb-1 text-sm text-slate-400 line-through">Rs {{ number_format($product->compare_price) }}</p>
+                    @endif
+                </div>
+
+                @if($onSale)
+                    <div class="mt-3 flex flex-wrap items-center gap-2 text-sm">
+                        <span class="rounded-full bg-emerald-50 px-3 py-1 font-semibold text-emerald-700">
+                            You save Rs {{ number_format($product->compare_price - $product->price) }}
+                        </span>
+                        <span class="font-semibold text-red-600">
+                            {{ round((1 - $product->price / $product->compare_price) * 100) }}% OFF
+                        </span>
+                    </div>
+                @endif
+
+                <p class="mt-3 text-sm font-semibold {{ $product->stock > 0 ? 'text-emerald-600' : 'text-red-600' }}">
                     {{ $product->stock > 0 ? 'in stock (' . $product->stock . ')' : 'Sold out' }}
                 </p>
             </div>
@@ -70,7 +89,7 @@
                 </div>
                 <a href="{{ route('home') }}#shop"
                    class="ml-auto shrink-0 rounded-full border border-slate-300 px-4 py-2 text-xs font-bold text-slate-900 transition hover:bg-slate-900 hover:text-white">
-                    view Shop 
+                    view Shop
                 </a>
             </div>
 
@@ -111,7 +130,8 @@
                        class="group block overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl">
                         <div class="aspect-square overflow-hidden bg-slate-100">
                             @if($item->image)
-                                <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}"
+                                <img src="{{ asset('storage/' . $item->image) }}"
+                                     alt="{{ $item->name }}"
                                      class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
                             @else
                                 <div class="flex h-full items-center justify-center">

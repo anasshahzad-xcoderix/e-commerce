@@ -52,6 +52,13 @@
           <input type="number" id="price" name="price" step="0.01" min="0" value="{{ old('price', $p->price ?? '') }}">
         @error('price') <small class="pf-err">{{ $message }}</small> @enderror
     </div>
+    <div class="pf-field">
+    <label for="compare_price">Old Price (optional)</label>
+    <input type="number" id="compare_price" name="compare_price" step="0.01" min="0"
+           value="{{ old('compare_price', $p->compare_price ?? '') }}">
+    <small class="pf-hint">Khaali chhor dein agar sale na ho.</small>
+    @error('compare_price') <small class="pf-err">{{ $message }}</small> @enderror
+</div>
 
           <div class="pf-field">
         <label for="stock">Stock</label>

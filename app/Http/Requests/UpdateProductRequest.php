@@ -21,21 +21,22 @@ class UpdateProductRequest extends FormRequest
             'stock'       => 'required|integer|min:0',
             'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'art'         => 'nullable|string|max:50',
+            'compare_price' => 'nullable|numeric|min:0|gt:price',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'category_id.required' => 'Collection chunna zaroori hai.',
-            'category_id.exists'   => 'Chuni hui collection maujood nahi hai.',
-            'name.required'        => 'Product ka naam zaroori hai.',
-            'price.required'       => 'Price zaroori hai.',
-            'price.numeric'        => 'Price number honi chahiye.',
-            'stock.required'       => 'Stock zaroori hai.',
-            'image.image'          => 'Sirf image file upload karein.',
-            'image.mimes'          => 'Image JPG, PNG ya WEBP honi chahiye.',
-            'image.max'            => 'Image 2 MB se choti honi chahiye.',
+            'category_id.required' => 'category required.',
+            'category_id.exists'   => 'Selected category does not exist.',
+            'name.required'        => 'Product name is required.',
+            'price.required'       => 'Price is required.',
+            'price.numeric'        => 'Price must be a number.',
+            'stock.required'       => 'Stock is required.',
+            'image.image'          => 'image file is required.',
+            'image.mimes'          => 'image must be a JPG, PNG, or WEBP file.',
+            'image.max'            => 'image must be less than 2 MB.',
         ];
     }
 }
