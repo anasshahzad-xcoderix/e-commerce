@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    private function currentCart(): Cart
+    {
+        return Cart::firstOrCreate(['user_id' => auth()->id()]);
+    }
+
     public function add(Product $product)
     {
+        $cart = $this->currentCart();
+
         $item = CartItem::firstOrCreate(
-            ['user_id' => auth()->id(), 'product_id' => $product->id],
+            ['cart_id' => $cart->id, 'product_id' => $product->id],
             ['quantity' => 0]
         );
         $item->increment('quantity');
@@ -23,20 +31,19 @@ class CartController extends Controller
     {
         [$cart, $subtotal, $shipping] = $this->buildCart();
 
-        return view('cart.index', 
-        compact('cart',
-         'subtotal', 
-         'shipping'));
+        return view('cart.index', compact('cart', 'subtotal', 'shipping'));
     }
 
-    
-
-    private function 
-    buildCart(): array
+    public function checkout()
     {
-        $items = CartItem::with('product')
-        ->where('user_id', auth
-        ()->id())->get();
+        [$cart, $subtotal, $shipping] = $this->buildCart();
+
+        return view('checkout.index', compact('cart', 'subtotal', 'shipping'));
+    }
+
+    private function buildCart(): array
+    {
+        $items = $this->currentCart()->items()->with('product')->get();
 
         $cart = $items->mapWithKeys(fn ($i) => [
             $i->product_id => [
@@ -49,30 +56,23 @@ class CartController extends Controller
             ],
         ])->all();
 
-        $subtotal = collect($cart)->sum(fn 
-        ($item) => $item['price'] * $item['qty']);
-        $shipping =
-         $subtotal > 0 ? 150 : 0;
+        $subtotal = collect($cart)->sum(fn ($item) => $item['price'] * $item['qty']);
+        $shipping = $subtotal > 0 ? 150 : 0;
 
         return [$cart, $subtotal, $shipping];
     }
 
-    public function 
-    update(Request $request, $id)
+    public function update(Request $request, $id)
     {
-        $request->validate
-        (['qty' => 'required|integer|min:0|max:99']);
+        $request->validate(['qty' => 'required|integer|min:0|max:99']);
 
-        $item = CartItem::where('user_id', auth()->
-        id())->where
-        ('product_id', $id)->first();
+        $item = $this->currentCart()->items()->where('product_id', $id)->first();
 
         if ($item) {
             if ((int) $request->qty === 0) {
                 $item->delete();
             } else {
-                $item->update(['quantity' => 
-                (int) $request->qty]);
+                $item->update(['quantity' => (int) $request->qty]);
             }
         }
 
@@ -81,12 +81,8 @@ class CartController extends Controller
 
     public function remove($id)
     {
-        CartItem::where('user_id', auth()->id())->where
-        ('product_id', $id)
-        ->delete();
+        $this->currentCart()->items()->where('product_id', $id)->delete();
 
         return back();
     }
-
-   
 }

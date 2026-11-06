@@ -4,7 +4,7 @@
 
 @php
     $cartCount = auth()->check()
-        ? \App\Models\CartItem::where('user_id', auth()->id())->sum('quantity')
+        ? (\App\Models\Cart::where('user_id', auth()->id())->first()?->items()->sum('quantity') ?? 0)
         : 0;
 @endphp
 
