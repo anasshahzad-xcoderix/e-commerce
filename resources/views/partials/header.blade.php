@@ -2,6 +2,12 @@
     Free delivery on orders over $75 · Free returns for 30 days
 </div>
 
+@php
+    $cartCount = auth()->check()
+        ? \App\Models\CartItem::where('user_id', auth()->id())->sum('quantity')
+        : 0;
+@endphp
+
 <header class="site-header">
     <a href="{{ url('/') }}" class="logo">
         <span class="logo-icon"></span>
@@ -10,12 +16,12 @@
 
     <nav class="menu" id="menu">
         <a href="{{ route('shop') }}">Shop</a>
-<a href="{{ url('/#categories') }}">Categories</a>        
-<a href="{{ route('daily-sale') }}">Daily sale</a>
+        <a href="{{ url('/#categories') }}">Categories</a>
+        <a href="{{ route('daily-sale') }}">Daily sale</a>
         <a href="{{ route('makers') }}">Makers</a>
         <a href="{{ route('help') }}">Help</a>
-<a href="{{ route('contact') }}">Contact</a>       
-</nav>
+        <a href="{{ route('contact') }}">Contact</a>
+    </nav>
 
     <div class="header-right">
         @guest
@@ -31,7 +37,19 @@
             </form>
         @endauth
 
-<span class="cart-count">{{ auth()->check() ? \App\Models\CartItem::where('user_id', auth()->id())->sum('quantity') : 0 }}</span>        <button class="burger" id="burger" aria-label="Menu">
+        <a href="{{ route('cart.index') }}" class="cart-icon-btn" aria-label="Cart">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"/>
+                <circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            @if($cartCount > 0)
+                <span class="cart-badge">{{ $cartCount }}</span>
+            @endif
+        </a>
+
+        <button class="burger" id="burger" aria-label="Menu">
             <span></span><span></span><span></span>
         </button>
     </div>

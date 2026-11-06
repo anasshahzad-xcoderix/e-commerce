@@ -56,7 +56,7 @@
     <label for="compare_price">Old Price (optional)</label>
     <input type="number" id="compare_price" name="compare_price" step="0.01" min="0"
            value="{{ old('compare_price', $p->compare_price ?? '') }}">
-    <small class="pf-hint">Khaali chhor dein agar sale na ho.</small>
+    <small class="pf-hint">Leave blank if no sale is applicable.</small>
     @error('compare_price') <small class="pf-err">{{ $message }}</small> @enderror
 </div>
 

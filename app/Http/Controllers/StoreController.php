@@ -73,6 +73,10 @@ public function shop(Request $request)
 
     return view('pages.product', compact('product', 'related'));
 }
+
+
+
+
 }
 
 

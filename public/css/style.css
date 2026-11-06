@@ -49,17 +49,37 @@ section[id] { scroll-margin-top: 90px; }
 .menu a:hover, .menu a.active { color: #1f7a6d; }
 
 .header-right { display: flex; justify-content: flex-end; align-items: center; gap: 12px; }
-.cart-btn {
-    background: #14233b; color: #fff; text-decoration: none;
-    padding: 12px 20px; border-radius: 999px;
-    font-weight: 600; font-size: 15px;
-    display: flex; align-items: center; gap: 10px;
+.cart-icon-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1.5px solid #14233b;
+    background: #fff;
+    color: #14233b;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
 }
-.cart-count {
-    background: #f5b73b; color: #14233b;
-    width: 24px; height: 24px; border-radius: 50%;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 700;
+.cart-icon-btn:hover { background: #14233b; color: #fff; }
+
+.cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: #fbbf24;
+    color: #14233b;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .burger {
