@@ -67,3 +67,4 @@ Route::middleware('auth')->group(function () {
     Route::patch('/cart/{id}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('cart.remove');
 });
+Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');

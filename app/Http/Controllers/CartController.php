@@ -33,8 +33,13 @@ class CartController extends Controller
 
         return view('cart.index', compact('cart', 'subtotal', 'shipping'));
     }
+public function checkout()
+{
+    [$cart, $subtotal, $shipping] = $this->buildCart();
 
- 
+    return view('checkout.index', compact('cart', 'subtotal', 'shipping'));
+}
+    
 
     private function buildCart(): array
     {

@@ -1,114 +1,187 @@
 @extends('layouts.app')
+
 @section('title', 'Checkout')
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
 
-<main class="co">
+@php
+    $discount = 0;
+    $total    = $subtotal + $shipping - $discount;
 
-    @if(session('added'))
-        <div class="co-toast">✓ {{ session('added') }} Order add in the cart</div>
-    @endif
+    $inputClass = 'w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm placeholder-gray-400 focus:outline-none focus:border-[#e39320] focus:ring-1 focus:ring-[#e39320]';
+    $labelClass = 'block text-sm font-semibold text-gray-900 mb-1.5';
 
-    @if(session('error'))
-        <div class="co-toast co-toast-err">{{ session('error') }}</div>
-    @endif
+    $areas = [
+        'Multan'     => ['Gulgasht', 'DHA', 'New Shalimar Colony', 'Lodhi Colony', 'Shah Rukn-e-Alam Colony'],
+        'Faisalabad' => ['Tariqabad', 'GM Abad', 'Rachna Town', 'Madinah Colony', 'Model Town'],
+        'Karachi'    => ['Gulshan-e-Iqbal', 'Malir Cantt', 'University Road', 'Lasbela', 'Clifton'],
+        'Lahore'     => ['DHA', 'Bahria Town', 'Gulberg', 'Model Town'],
+        'Rawalpindi' => ['Tariqabad', 'Raja Bazar', 'Satellite Town', 'Saddar', 'Chaklala'],
+        'Hyderabad'  => ['Ottoban Road', 'Lateefabad', 'Qasimabad'],
+    ];
+@endphp
 
-    @if(session('ordered'))
-        <div class="co-overlay">
-            <div class="co-success">
-                <svg viewBox="0 0 52 52" class="co-check">
-                    <circle cx="26" cy="26" r="24"/>
-                    <path d="M14 27 l8 8 l16 -18"/>
-                </svg>
-                <h2>Order has been placed!</h2>
-                <p>.</p>
-                <a href="{{ url('/shop') }}" class="co-btn">continue to shopping</a>
+<div class="bg-white min-h-screen">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+
+@if(empty($cart))
+    <div class="text-center py-20">
+        <p class="text-gray-500 mb-6">Your cart is empty now.</p>
+        <a href="{{ route('home') }}"
+           class="inline-block bg-[#e39320] text-white px-6 py-3 rounded-lg font-medium">
+            Start shopping
+        </a>
+    </div>
+@else
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+
+    <section class="lg:col-span-2 border border-gray-200 rounded-2xl overflow-hidden">
+        <header class="bg-[#f6eee2] text-center font-bold text-gray-800 py-4">
+            Shipping details
+        </header>
+
+        <div class="p-5 sm:p-6">
+            <p class="font-semibold text-gray-800 mb-6">
+                Enter your contact details and delivery address.
+            </p>
+
+            <form id="addressForm" class="space-y-4">
+
+                <div>
+                    <label class="{{ $labelClass }}">Full name <span class="text-red-500">*</span></label>
+                    <input type="text" name="full_name" required class="{{ $inputClass }}">
+                </div>
+
+                <div>
+                    <label class="{{ $labelClass }}">Email <span class="text-red-500">*</span></label>
+                    <input type="email" name="email" required class="{{ $inputClass }}">
+                </div>
+
+                <div>
+                    <label class="{{ $labelClass }}">Phone <span class="text-red-500">*</span></label>
+                    <input type="tel" name="phone" required class="{{ $inputClass }}">
+                </div>
+
+                <div>
+                    <label class="{{ $labelClass }}">Area <span class="text-red-500">*</span></label>
+                    <select name="area" required class="{{ $inputClass }} bg-white">
+                        <option value="">Choose area</option>
+                        @foreach($areas as $city => $list)
+                            <optgroup label="{{ $city }}">
+                                @foreach($list as $area)
+                                    <option value="{{ $city }} - {{ $area }}">{{ $area }}</option>
+                                @endforeach
+                            </optgroup>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <label class="{{ $labelClass }}">Block number <span class="text-red-500">*</span></label>
+                    <input type="text" name="block" placeholder="Enter number" required class="{{ $inputClass }}">
+                </div>
+
+                <div>
+                    <label class="{{ $labelClass }}">Street name <span class="text-red-500">*</span></label>
+                    <input type="text" name="street" placeholder="Enter street name" required class="{{ $inputClass }}">
+                </div>
+
+                <div>
+                    <label class="{{ $labelClass }}">Building number <span class="text-red-500">*</span></label>
+                    <input type="text" name="building" placeholder="Enter number" required class="{{ $inputClass }}">
+                </div>
+
+                <div>
+                    <label class="{{ $labelClass }}">Floor</label>
+                    <input type="text" name="floor" placeholder="Enter floor" class="{{ $inputClass }}">
+                </div>
+
+                <div>
+                    <label class="{{ $labelClass }}">Apartment</label>
+                    <input type="text" name="apartment" placeholder="Enter apartment" class="{{ $inputClass }}">
+                </div>
+
+                <div>
+                    <label class="{{ $labelClass }}">PACI number</label>
+                    <input type="text" name="paci" placeholder="Enter PACI number" class="{{ $inputClass }}">
+                </div>
+
+                <button type="button"
+                        class="w-full bg-[#e39320] hover:bg-[#cf8214] text-white font-semibold py-3 rounded-full transition">
+                    Save
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <aside class="space-y-6">
+
+        {{-- Discount code --}}
+        <div class="border border-gray-200 rounded-2xl overflow-hidden">
+            <header class="bg-[#f6eee2] text-center font-semibold text-gray-800 py-4">
+                Discount code
+            </header>
+            <div class="p-5 space-y-3">
+                <input type="text" placeholder="Enter the discount coupon" class="{{ $inputClass }}">
+                <button type="button"
+                        class="w-full bg-[#e39320] hover:bg-[#cf8214] text-white font-semibold py-2.5 rounded-lg transition">
+                    Apply
+                </button>
             </div>
         </div>
-    @endif
 
-    <header class="co-head">
-        <h1>Checkout</h1>
-        <a href="{{ url('/shop') }}" class="co-back">← Back to shop</a>
-    </header>
+        <div class="border border-gray-200 rounded-2xl overflow-hidden">
+            <header class="bg-[#f6eee2] text-center font-bold text-gray-800 py-4">
+                Payment summary
+            </header>
 
-    @if(count($cart) === 0)
-        <div class="co-empty">
-            <h2>Empty Cart</h2>
-            <a href="{{ url('/shop') }}" class="co-btn">Show the shop</a>
+            <div class="p-5 space-y-3">
+                <div class="flex justify-between text-sm text-gray-600">
+                    <span>Subtotal</span>
+                    <span>Rs {{ number_format($subtotal) }}</span>
+                </div>
+                <div class="flex justify-between text-sm text-gray-600">
+                    <span>Delivery fee</span>
+                    <span>Rs {{ number_format($shipping) }}</span>
+                </div>
+                <div class="flex justify-between text-sm font-semibold text-red-500">
+                    <span>Discount code</span>
+                    <span>Rs {{ number_format($discount) }}</span>
+                </div>
+                <div class="flex justify-between border-t border-gray-200 pt-3 font-bold text-gray-900">
+                    <span>Total</span>
+                    <span>Rs {{ number_format($total) }}</span>
+                </div>
+
+                <div class="pt-2">
+                    <label class="{{ $labelClass }}">Delivery notes (optional)</label>
+                    <textarea rows="3" name="notes"
+                              placeholder="e.g. preferred delivery time, gate code, or other instructions"
+                              class="{{ $inputClass }} resize-none"></textarea>
+                </div>
+
+                <p class="text-sm text-red-500 leading-relaxed">
+                    Please add a complete shipping address (area, block, street, and building) before confirming your order.
+                </p>
+
+                <a href="#addressForm"
+                   class="block text-center w-full border-2 border-[#e39320] text-[#e39320] font-semibold py-2.5 rounded-full hover:bg-[#fdf5ea] transition">
+                    Add address
+                </a>
+
+                <button type="button" disabled
+                        class="w-full bg-[#e39320] text-white font-semibold py-3 rounded-full opacity-50 cursor-not-allowed">
+                    Confirm payment
+                </button>
+            </div>
         </div>
-    @else
-        <div class="co-grid">
 
-            <section class="co-items">
-                @foreach($cart as $i => $item)
-                    <article class="co-item" style="--d: {{ $i * 90 }}ms">
-                        <div class="co-thumb">
-                            @if(!empty($item['image']))
-                                <img src="{{ asset('storage/' . $item['image']) }}" alt="{{ $item['name'] }}">
-                            @else
-                                <x-icon name="{{ $item['art'] ?? 'basket' }}" size="40" />
-                            @endif
-                        </div>
+    </aside>
+</div>
 
-                        <div class="co-info">
-                            <h3>{{ $item['name'] }}</h3>
-                            <p>Rs {{ number_format($item['price']) }}</p>
-                        </div>
+@endif
 
-                        <div class="co-qty">
-                            <form method="POST" action="{{ route('cart.update', $item['id']) }}">
-                                @csrf
-                                @method('PATCH')
-                                <input type="hidden" name="qty" value="{{ $item['qty'] - 1 }}">
-                                <button class="qbtn" aria-label="less">−</button>
-                            </form>
-
-                            <span>{{ $item['qty'] }}</span>
-
-                            <form method="POST" action="{{ route('cart.update', $item['id']) }}">
-                                @csrf
-                                @method('PATCH')
-                                <input type="hidden" name="qty" value="{{ $item['qty'] + 1 }}">
-                                <button class="qbtn" aria-label="More">+</button>
-                            </form>
-                        </div>
-
-                        <div class="co-line">Rs {{ number_format($item['price'] * $item['qty']) }}</div>
-
-                        <form method="POST" action="{{ route('cart.remove', $item['id']) }}">
-                            @csrf
-                            @method('DELETE')
-                            <button class="co-remove" aria-label="Remove">✕</button>
-                        </form>
-                    </article>
-                @endforeach
-            </section>
-
-            <aside class="co-summary">
-                <h2>Order summary</h2>
-
-                <div class="co-row"><span>Subtotal</span><span>Rs {{ number_format($subtotal) }}</span></div>
-                <div class="co-row"><span>Delivery</span><span>Rs {{ number_format($shipping) }}</span></div>
-                <div class="co-row co-total"><span>Total</span><span>Rs {{ number_format($subtotal + $shipping) }}</span></div>
-
-                <form method="POST" action="{{ route('checkout.place') }}" class="co-form">
-                    @csrf
-                    <input type="text" name="name" value="{{ old('name') }}" placeholder="Your Name">
-                    @error('name') <small class="co-err">{{ $message }}</small> @enderror
-
-                    <input type="text" name="phone" value="{{ old('phone') }}" placeholder="Phone number">
-                    @error('phone') <small class="co-err">{{ $message }}</small> @enderror
-
-                    <textarea name="address" rows="3" placeholder="Your Adress">{{ old('address') }}</textarea>
-                    @error('address') <small class="co-err">{{ $message }}</small> @enderror
-
-                    <button type="submit" class="co-btn co-pay">Comfirm Order</button>
-                </form>
-            </aside>
-
-        </div>
-    @endif
-</main>
+</div>
+</div>
 @endsection
