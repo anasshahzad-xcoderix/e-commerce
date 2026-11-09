@@ -183,21 +183,5 @@
 </div>
 </div>
 
-<script>
-(function () {
-    const form       = document.getElementById('addressForm');
-    const saveBtn    = document.getElementById('saveAddressBtn');
-    const confirmBtn = document.getElementById('confirmBtn');
-    const warning    = document.getElementById('addressWarning');
-document.getElementById('saveAddressBtn')
-    if (!form) return;
 
-    saveBtn.addEventListener('click', () => {
-        if (!form.reportValidity()) return;
-
-        warning.classList.add('hidden');
-        confirmBtn.disabled = false;
-    });
-})();
-</script>
 @endsection

@@ -33,18 +33,19 @@ class CartController extends Controller
 
         return view('cart.index', compact('cart', 'subtotal', 'shipping'));
     }
-public function checkout()
-{
+
+  public function checkout()
+  {
     [$cart, $subtotal, $shipping] = $this->buildCart();
 
+
     return view('checkout.index', compact('cart', 'subtotal', 'shipping'));
-}
-    
+
+  }  
 
     private function buildCart(): array
     {
         $items = $this->currentCart()->items()->with('product')->get();
-
         $cart = $items->mapWithKeys(fn ($i) => [
             $i->product_id => [
                 'id'    => $i->product_id,
@@ -62,27 +63,37 @@ public function checkout()
         return [$cart, $subtotal, $shipping];
     }
 
-    public function update(Request $request, $id)
-    {
-        $request->validate(['qty' => 'required|integer|min:0|max:99']);
+  
 
-        $item = $this->currentCart()->items()->where('product_id', $id)->first();
+public function update(Request $request, $id)
+{
+    $request->Validate(['qty'=> 'required|integer|min:0|max:99']);
 
-        if ($item) {
-            if ((int) $request->qty === 0) {
-                $item->delete();
-            } else {
-                $item->update(['quantity' => (int) $request->qty]);
-            }
-        }
+    $item = $this->currentCart()->items()->where('product_id', $id)->first();
 
-        return back();
+    if ($item) {
+        if ((int) $request->qty === 0){
+            $item->delete();
+        } else {
+            $item->update(['quantity' => (int) $request->qty]);
+}
     }
 
-    public function remove($id)
-    {
-        $this->currentCart()->items()->where('product_id', $id)->delete();
+    return back();
+} 
 
-        return back();
-    }
+   
+  
+
+
+
+
+public function remove($id)
+{
+    $this->currentCart()->items()->where('product_id', $id)->delete();
+
+    return back();
+}
+
+
 }
