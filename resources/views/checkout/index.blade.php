@@ -107,7 +107,7 @@
                     <input type="text" name="paci" placeholder="Enter PACI number" class="{{ $inputClass }}">
                 </div>
 
-                <button type="button"
+                                <button type="button" id="saveAddressBtn"
                         class="w-full bg-[#e39320] hover:bg-[#cf8214] text-white font-semibold py-3 rounded-full transition">
                     Save
                 </button>
@@ -117,7 +117,6 @@
 
     <aside class="space-y-6">
 
-        {{-- Discount code --}}
         <div class="border border-gray-200 rounded-2xl overflow-hidden">
             <header class="bg-[#f6eee2] text-center font-semibold text-gray-800 py-4">
                 Discount code
@@ -161,8 +160,7 @@
                               class="{{ $inputClass }} resize-none"></textarea>
                 </div>
 
-                <p class="text-sm text-red-500 leading-relaxed">
-                    Please add a complete shipping address (area, block, street, and building) before confirming your order.
+                <p id="addressWarning" class="text-sm text-red-500 leading-relaxed">                    Please add a complete shipping address (area, block, street, and building) before confirming your order.
                 </p>
 
                 <a href="#addressForm"
@@ -170,8 +168,8 @@
                     Add address
                 </a>
 
-                <button type="button" disabled
-                        class="w-full bg-[#e39320] text-white font-semibold py-3 rounded-full opacity-50 cursor-not-allowed">
+                             <button type="button" id="confirmBtn" disabled
+                        class="w-full bg-[#e39320] text-white font-semibold py-3 rounded-full transition disabled:opacity-50 disabled:cursor-not-allowed">
                     Confirm payment
                 </button>
             </div>
@@ -184,4 +182,22 @@
 
 </div>
 </div>
+
+<script>
+(function () {
+    const form       = document.getElementById('addressForm');
+    const saveBtn    = document.getElementById('saveAddressBtn');
+    const confirmBtn = document.getElementById('confirmBtn');
+    const warning    = document.getElementById('addressWarning');
+document.getElementById('saveAddressBtn')
+    if (!form) return;
+
+    saveBtn.addEventListener('click', () => {
+        if (!form.reportValidity()) return;
+
+        warning.classList.add('hidden');
+        confirmBtn.disabled = false;
+    });
+})();
+</script>
 @endsection
