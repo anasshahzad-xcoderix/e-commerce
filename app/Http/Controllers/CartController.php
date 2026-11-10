@@ -68,6 +68,8 @@ class CartController extends Controller
             return redirect()->route('cart.index');
         }
 
+
+
         DB::transaction(function () use ($data, $cart, $subtotal, $shipping) {
             $order = Order::create([
                 'user_id'  => auth()->id(),
