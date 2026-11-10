@@ -7,6 +7,9 @@ use App\Models\CartItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
+use App\Models\Order;
+use Illuminate\Support\Facades\DB;
+
 class CartController extends Controller
 {
     private function currentCart(): Cart
@@ -30,7 +33,7 @@ class CartController extends Controller
     public function index()
     {
         [$cart, $subtotal, $shipping] = $this->buildCart();
-
+    
         return view('cart.index', compact('cart', 'subtotal', 'shipping'));
     }
 
@@ -42,6 +45,55 @@ class CartController extends Controller
     return view('checkout.index', compact('cart', 'subtotal', 'shipping'));
 
   }  
+
+    public function placeOrder(Request $request)
+    {
+        $data = $request->validate([
+            'full_name' => 'required|string|max:100',
+            'email'     => 'required|email|max:150',
+            'phone'     => 'required|string|max:20',
+            'area'      => 'required|string|max:150',
+            'block'     => 'required|string|max:20',
+            'street'    => 'required|string|max:150',
+            'building'  => 'required|string|max:50',
+            'floor'     => 'nullable|string|max:20',
+            'apartment' => 'nullable|string|max:20',
+            'paci'      => 'nullable|string|max:20',
+            'notes'     => 'nullable|string|max:500',
+        ]);
+
+        [$cart, $subtotal, $shipping] = $this->buildCart();
+
+        if (empty($cart)) {
+            return redirect()->route('cart.index');
+        }
+
+        DB::transaction(function () use ($data, $cart, $subtotal, $shipping) {
+            $order = Order::create([
+                'user_id'  => auth()->id(),
+                ...$data,
+                'subtotal' => $subtotal,
+                'shipping' => $shipping,
+                'total'    => $subtotal + $shipping,
+                
+            ]);
+
+            foreach ($cart as $item) {
+                $order->items()->create([
+                    'product_id' => $item['id'],
+                    'name'       => $item['name'],
+                    'price'      => $item['price'],
+                    'quantity'   => $item['qty'],
+                ]);
+            }
+
+            $this->currentCart()->items()->delete();
+        });
+
+        return redirect()->route('checkout');
+    }
+
+
 
     private function buildCart(): array
     {
@@ -94,6 +146,8 @@ public function remove($id)
 
     return back();
 }
+
+
 
 
 }

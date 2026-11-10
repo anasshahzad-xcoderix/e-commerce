@@ -14,7 +14,6 @@ use App\Http\Controllers\CartController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
 Route::get('/shop', [StoreController::class, 'shop'])->name('shop');
 Route::get('/categories', [StoreController::class, 'categories'])->name('categories');
 Route::get('/daily-sale', [StoreController::class, 'dailySale'])->name('daily-sale');
@@ -62,13 +61,13 @@ Route::get('/products', [ProductController::class, 'index'])->name('products');
 Route::get('/product/{product}', [StoreController::class, 'productShow'])->name('product.show');
 
 
-Route::middleware('auth')->group(function(){
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
-    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
-    Route::patch('/cart/{id}', [CartController::class, 'update'])->name('cart.update');
-    Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('cart.remove');
-});
+    Route::middleware('auth')->group(function(){
+        Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+        Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+        Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+        Route::patch('/cart/{id}', [CartController::class, 'update'])->name('cart.update');
+        Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('cart.remove');
+        Route::post('/checkout', [CartController::class, 'placeOrder'])->name('checkout.place');
+    });
 
 
-Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');

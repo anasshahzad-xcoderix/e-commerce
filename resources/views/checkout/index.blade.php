@@ -36,6 +36,7 @@
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
 
+    {{-- LEFT: Shipping details --}}
     <section class="lg:col-span-2 border border-gray-200 rounded-2xl overflow-hidden">
         <header class="bg-[#f6eee2] text-center font-bold text-gray-800 py-4">
             Shipping details
@@ -46,21 +47,28 @@
                 Enter your contact details and delivery address.
             </p>
 
-            <form id="addressForm" class="space-y-4">
+            @if($errors->any())
+                <div class="mb-6 rounded-xl bg-red-50 border border-red-300 text-red-700 px-4 py-3 text-sm">
+                    {{ $errors->first() }}
+                </div>
+            @endif
+
+            <form id="addressForm" method="POST" action="{{ route('checkout.place') }}" class="space-y-4">
+                @csrf
 
                 <div>
                     <label class="{{ $labelClass }}">Full name <span class="text-red-500">*</span></label>
-                    <input type="text" name="full_name" required class="{{ $inputClass }}">
+                    <input type="text" name="full_name" value="{{ old('full_name') }}" required class="{{ $inputClass }}">
                 </div>
 
                 <div>
                     <label class="{{ $labelClass }}">Email <span class="text-red-500">*</span></label>
-                    <input type="email" name="email" required class="{{ $inputClass }}">
+                    <input type="email" name="email" value="{{ old('email') }}" required class="{{ $inputClass }}">
                 </div>
 
                 <div>
                     <label class="{{ $labelClass }}">Phone <span class="text-red-500">*</span></label>
-                    <input type="tel" name="phone" required class="{{ $inputClass }}">
+                    <input type="tel" name="phone" value="{{ old('phone') }}" required class="{{ $inputClass }}">
                 </div>
 
                 <div>
@@ -70,7 +78,7 @@
                         @foreach($areas as $city => $list)
                             <optgroup label="{{ $city }}">
                                 @foreach($list as $area)
-                                    <option value="{{ $city }} - {{ $area }}">{{ $area }}</option>
+                                    <option value="{{ $city }} - {{ $area }}" @selected(old('area') === "$city - $area")>{{ $area }}</option>
                                 @endforeach
                             </optgroup>
                         @endforeach
@@ -79,35 +87,35 @@
 
                 <div>
                     <label class="{{ $labelClass }}">Block number <span class="text-red-500">*</span></label>
-                    <input type="text" name="block" placeholder="Enter number" required class="{{ $inputClass }}">
+                    <input type="text" name="block" value="{{ old('block') }}" placeholder="Enter number" required class="{{ $inputClass }}">
                 </div>
 
                 <div>
                     <label class="{{ $labelClass }}">Street name <span class="text-red-500">*</span></label>
-                    <input type="text" name="street" placeholder="Enter street name" required class="{{ $inputClass }}">
+                    <input type="text" name="street" value="{{ old('street') }}" placeholder="Enter street name" required class="{{ $inputClass }}">
                 </div>
 
                 <div>
                     <label class="{{ $labelClass }}">Building number <span class="text-red-500">*</span></label>
-                    <input type="text" name="building" placeholder="Enter number" required class="{{ $inputClass }}">
+                    <input type="text" name="building" value="{{ old('building') }}" placeholder="Enter number" required class="{{ $inputClass }}">
                 </div>
 
                 <div>
                     <label class="{{ $labelClass }}">Floor</label>
-                    <input type="text" name="floor" placeholder="Enter floor" class="{{ $inputClass }}">
+                    <input type="text" name="floor" value="{{ old('floor') }}" placeholder="Enter floor" class="{{ $inputClass }}">
                 </div>
 
                 <div>
                     <label class="{{ $labelClass }}">Apartment</label>
-                    <input type="text" name="apartment" placeholder="Enter apartment" class="{{ $inputClass }}">
+                    <input type="text" name="apartment" value="{{ old('apartment') }}" placeholder="Enter apartment" class="{{ $inputClass }}">
                 </div>
 
                 <div>
                     <label class="{{ $labelClass }}">PACI number</label>
-                    <input type="text" name="paci" placeholder="Enter PACI number" class="{{ $inputClass }}">
+                    <input type="text" name="paci" value="{{ old('paci') }}" placeholder="Enter PACI number" class="{{ $inputClass }}">
                 </div>
 
-                                <button type="button" id="saveAddressBtn"
+                <button type="submit"
                         class="w-full bg-[#e39320] hover:bg-[#cf8214] text-white font-semibold py-3 rounded-full transition">
                     Save
                 </button>
@@ -115,8 +123,10 @@
         </div>
     </section>
 
+    {{-- RIGHT: Discount + Payment summary --}}
     <aside class="space-y-6">
 
+        {{-- Discount code --}}
         <div class="border border-gray-200 rounded-2xl overflow-hidden">
             <header class="bg-[#f6eee2] text-center font-semibold text-gray-800 py-4">
                 Discount code
@@ -130,6 +140,7 @@
             </div>
         </div>
 
+        {{-- Payment summary --}}
         <div class="border border-gray-200 rounded-2xl overflow-hidden">
             <header class="bg-[#f6eee2] text-center font-bold text-gray-800 py-4">
                 Payment summary
@@ -155,21 +166,18 @@
 
                 <div class="pt-2">
                     <label class="{{ $labelClass }}">Delivery notes (optional)</label>
-                    <textarea rows="3" name="notes"
+                    <textarea rows="3" name="notes" form="addressForm"
                               placeholder="e.g. preferred delivery time, gate code, or other instructions"
-                              class="{{ $inputClass }} resize-none"></textarea>
+                              class="{{ $inputClass }} resize-none">{{ old('notes') }}</textarea>
                 </div>
-
-                <p id="addressWarning" class="text-sm text-red-500 leading-relaxed">                    Please add a complete shipping address (area, block, street, and building) before confirming your order.
-                </p>
 
                 <a href="#addressForm"
                    class="block text-center w-full border-2 border-[#e39320] text-[#e39320] font-semibold py-2.5 rounded-full hover:bg-[#fdf5ea] transition">
                     Add address
                 </a>
 
-                             <button type="button" id="confirmBtn" disabled
-                        class="w-full bg-[#e39320] text-white font-semibold py-3 rounded-full transition disabled:opacity-50 disabled:cursor-not-allowed">
+                <button type="submit" form="addressForm"
+                        class="w-full bg-[#e39320] hover:bg-[#cf8214] text-white font-semibold py-3 rounded-full transition">
                     Confirm payment
                 </button>
             </div>
@@ -182,6 +190,4 @@
 
 </div>
 </div>
-
-
 @endsection
