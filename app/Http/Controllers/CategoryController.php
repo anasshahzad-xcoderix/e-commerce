@@ -32,7 +32,7 @@ class CategoryController extends Controller
 
     return redirect()->route('admin.categories.index')->with('success', 'Category will be add.');
 }
-
+    
     public function edit(Category $category)
     {
         return view('admin.categories.edit', compact('category'));

@@ -24,6 +24,18 @@
 <div class="bg-white min-h-screen">
 <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
 
+@if(session('success'))
+    <div class="mb-6 rounded-xl bg-green-50 border border-green-300 text-green-700 px-4 py-3 text-sm">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="mb-6 rounded-xl bg-red-50 border border-red-300 text-red-700 px-4 py-3 text-sm">
+        {{ session('error') }}
+    </div>
+@endif
+
 @if(empty($cart))
     <div class="text-center py-20">
         <p class="text-gray-500 mb-6">Your cart is empty now.</p>
@@ -48,32 +60,39 @@
             </p>
 
             @if($errors->any())
-                <div class="mb-6 rounded-xl bg-red-50 border border-red-300 text-red-700 px-4 py-3 text-sm">
-                    {{ $errors->first() }}
+                <div class="mb-6 rounded-xl bg-red-50 border border-red-300 text-red-700 px-4 py-3 text-sm" role="alert">
+                    <ul class="list-disc pl-5 space-y-1">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             @endif
 
-            <form id="addressForm" method="POST" action="{{ route('checkout.place') }}" class="space-y-4">
+            <form id="addressForm" method="POST" action="{{ route('checkout.place') }}" class="space-y-4" novalidate>
                 @csrf
 
                 <div>
                     <label class="{{ $labelClass }}">Full name <span class="text-red-500">*</span></label>
-                    <input type="text" name="full_name" value="{{ old('full_name') }}" required class="{{ $inputClass }}">
+                    <input type="text" name="full_name" value="{{ old('full_name') }}" class="{{ $inputClass }} {{ $errors->has('full_name') ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '' }}" aria-invalid="{{ $errors->has('full_name') ? 'true' : 'false' }}" aria-describedby="full_name-error" required maxlength="100">
+                    @error('full_name') <p id="full_name-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label class="{{ $labelClass }}">Email <span class="text-red-500">*</span></label>
-                    <input type="email" name="email" value="{{ old('email') }}" required class="{{ $inputClass }}">
+                    <input type="email" name="email" value="{{ old('email') }}" class="{{ $inputClass }} {{ $errors->has('email') ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '' }}" aria-invalid="{{ $errors->has('email') ? 'true' : 'false' }}" aria-describedby="email-error" required maxlength="150">
+                    @error('email') <p id="email-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label class="{{ $labelClass }}">Phone <span class="text-red-500">*</span></label>
-                    <input type="tel" name="phone" value="{{ old('phone') }}" required class="{{ $inputClass }}">
+                    <input type="tel" name="phone" value="{{ old('phone') }}" class="{{ $inputClass }} {{ $errors->has('phone') ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '' }}" aria-invalid="{{ $errors->has('phone') ? 'true' : 'false' }}" aria-describedby="phone-error" required maxlength="20">
+                    @error('phone') <p id="phone-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label class="{{ $labelClass }}">Area <span class="text-red-500">*</span></label>
-                    <select name="area" required class="{{ $inputClass }} bg-white">
+                    <select name="area" class="{{ $inputClass }} bg-white {{ $errors->has('area') ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '' }}" aria-invalid="{{ $errors->has('area') ? 'true' : 'false' }}" aria-describedby="area-error" required>
                         <option value="">Choose area</option>
                         @foreach($areas as $city => $list)
                             <optgroup label="{{ $city }}">
@@ -83,36 +102,43 @@
                             </optgroup>
                         @endforeach
                     </select>
+                    @error('area') <p id="area-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label class="{{ $labelClass }}">Block number <span class="text-red-500">*</span></label>
-                    <input type="text" name="block" value="{{ old('block') }}" placeholder="Enter number" required class="{{ $inputClass }}">
+                    <input type="text" name="block" value="{{ old('block') }}" placeholder="Enter number" class="{{ $inputClass }} {{ $errors->has('block') ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '' }}" aria-invalid="{{ $errors->has('block') ? 'true' : 'false' }}" aria-describedby="block-error" required maxlength="20">
+                    @error('block') <p id="block-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label class="{{ $labelClass }}">Street name <span class="text-red-500">*</span></label>
-                    <input type="text" name="street" value="{{ old('street') }}" placeholder="Enter street name" required class="{{ $inputClass }}">
+                    <input type="text" name="street" value="{{ old('street') }}" placeholder="Enter street name" class="{{ $inputClass }} {{ $errors->has('street') ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '' }}" aria-invalid="{{ $errors->has('street') ? 'true' : 'false' }}" aria-describedby="street-error" required maxlength="150">
+                    @error('street') <p id="street-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label class="{{ $labelClass }}">Building number <span class="text-red-500">*</span></label>
-                    <input type="text" name="building" value="{{ old('building') }}" placeholder="Enter number" required class="{{ $inputClass }}">
+                    <input type="text" name="building" value="{{ old('building') }}" placeholder="Enter number" class="{{ $inputClass }} {{ $errors->has('building') ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '' }}" aria-invalid="{{ $errors->has('building') ? 'true' : 'false' }}" aria-describedby="building-error" required maxlength="50">
+                    @error('building') <p id="building-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label class="{{ $labelClass }}">Floor</label>
-                    <input type="text" name="floor" value="{{ old('floor') }}" placeholder="Enter floor" class="{{ $inputClass }}">
+                    <input type="text" name="floor" value="{{ old('floor') }}" placeholder="Enter floor" class="{{ $inputClass }} {{ $errors->has('floor') ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '' }}" aria-invalid="{{ $errors->has('floor') ? 'true' : 'false' }}" aria-describedby="floor-error">
+                    @error('floor') <p id="floor-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label class="{{ $labelClass }}">Apartment</label>
-                    <input type="text" name="apartment" value="{{ old('apartment') }}" placeholder="Enter apartment" class="{{ $inputClass }}">
+                    <input type="text" name="apartment" value="{{ old('apartment') }}" placeholder="Enter apartment" class="{{ $inputClass }} {{ $errors->has('apartment') ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '' }}" aria-invalid="{{ $errors->has('apartment') ? 'true' : 'false' }}" aria-describedby="apartment-error">
+                    @error('apartment') <p id="apartment-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label class="{{ $labelClass }}">PACI number</label>
-                    <input type="text" name="paci" value="{{ old('paci') }}" placeholder="Enter PACI number" class="{{ $inputClass }}">
+                    <input type="text" name="paci" value="{{ old('paci') }}" placeholder="Enter PACI number" class="{{ $inputClass }} {{ $errors->has('paci') ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '' }}" aria-invalid="{{ $errors->has('paci') ? 'true' : 'false' }}" aria-describedby="paci-error">
+                    @error('paci') <p id="paci-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <button type="submit"
@@ -168,7 +194,9 @@
                     <label class="{{ $labelClass }}">Delivery notes (optional)</label>
                     <textarea rows="3" name="notes" form="addressForm"
                               placeholder="e.g. preferred delivery time, gate code, or other instructions"
-                              class="{{ $inputClass }} resize-none">{{ old('notes') }}</textarea>
+                              class="{{ $inputClass }} resize-none {{ $errors->has('notes') ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '' }}"
+                              aria-invalid="{{ $errors->has('notes') ? 'true' : 'false' }}" aria-describedby="notes-error">{{ old('notes') }}</textarea>
+                    @error('notes') <p id="notes-error" class="text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <a href="#addressForm"
