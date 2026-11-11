@@ -49,17 +49,17 @@ class CartController extends Controller
   public function placeOrder(Request $request)
   {
       $validated = $request->validate([
-          'full_name' => ['required', 'string', 'max:100'],
-          'email' => ['required', 'email', 'max:150'],
+          'full_name' => ['required', 'string', 'max:30'],
+          'email' => ['required', 'email', 'max:30'],
           'phone' => ['required', 'string', 'max:20'],
-          'area' => ['required', 'string', 'max:150'],
+          'area' => ['required', 'string', 'max:20'],
           'block' => ['required', 'string', 'max:20'],
-          'street' => ['required', 'string', 'max:150'],
-          'building' => ['required', 'string', 'max:50'],
-          'floor' => ['nullable', 'string', 'max:20'],
-          'apartment' => ['nullable', 'string', 'max:20'],
-          'paci' => ['nullable', 'string', 'max:20'],
-          'notes' => ['nullable', 'string', 'max:5000'],
+          'street' => ['required', 'string', 'max:25'],
+          'building' => ['required', 'string', 'max:23'],
+          'floor' => ['nullable', 'string', 'max:34'],
+          'apartment' => ['nullable', 'string', 'max:40'],
+          'paci' => ['nullable', 'string', 'max:30'],
+          'notes' => ['nullable', 'string', 'max:500'],
       ]);
 
       $order = DB::transaction(function () use ($request, $validated) {
