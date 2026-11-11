@@ -67,7 +67,6 @@ Route::get('/product/{product}', [StoreController::class, 'productShow'])->name(
         Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
         Route::patch('/cart/{id}', [CartController::class, 'update'])->name('cart.update');
         Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('cart.remove');
-        Route::post('/checkout', [CartController::class, 'placeOrder'])->name('checkout.place');
+        Route::post('/checkout', [CartController::class, 'store'])->name('checkout.place');
     });
-
 

@@ -141,7 +141,7 @@
                     @error('paci') <p id="paci-error" class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
-                <button type="submit"
+                <button type="adressForm"
                         class="w-full bg-[#e39320] hover:bg-[#cf8214] text-white font-semibold py-3 rounded-full transition">
                     Save
                 </button>
@@ -149,7 +149,6 @@
         </div>
     </section>
 
-    {{-- RIGHT: Discount + Payment summary --}}
     <aside class="space-y-6">
 
         {{-- Discount code --}}
@@ -166,7 +165,6 @@
             </div>
         </div>
 
-        {{-- Payment summary --}}
         <div class="border border-gray-200 rounded-2xl overflow-hidden">
             <header class="bg-[#f6eee2] text-center font-bold text-gray-800 py-4">
                 Payment summary
@@ -199,10 +197,6 @@
                     @error('notes') <p id="notes-error" class="text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
-                <a href="#addressForm"
-                   class="block text-center w-full border-2 border-[#e39320] text-[#e39320] font-semibold py-2.5 rounded-full hover:bg-[#fdf5ea] transition">
-                    Add address
-                </a>
 
                 <button type="submit" form="addressForm"
                         class="w-full bg-[#e39320] hover:bg-[#cf8214] text-white font-semibold py-3 rounded-full transition">
