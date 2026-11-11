@@ -102,7 +102,6 @@
 
 </section>
 </div>
-
 <script>
 document.addEventListener('click', function (e) {
     const link = e.target.closest('a[data-shop-link]');

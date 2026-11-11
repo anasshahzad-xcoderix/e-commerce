@@ -21,11 +21,24 @@ class CartController extends Controller
     {
         $cart = $this->currentCart();
 
-        $item = CartItem::firstOrCreate(
-            ['cart_id' => $cart->id, 'product_id' => $product->id],
-            ['quantity' => 0]
-        );
-        $item->increment('quantity');
+        $added = DB::transaction(function () use ($cart, $product) {
+            $cart = Cart::whereKey($cart->id)->lockForUpdate()->firstOrFail();
+
+            if ($cart->items()->where('product_id', $product->id)->exists()) {
+                return false;
+            }
+
+            $cart->items()->create([
+                'product_id' => $product->id,
+                'quantity' => 1,
+            ]);
+
+            return true;
+        });
+
+        if (!$added) {
+            return back()->with('already_in_cart', $product->name);
+        }
 
         return back()->with('added', $product->name);
     }
@@ -65,16 +78,25 @@ class CartController extends Controller
       $order = DB::transaction(function () use ($request, $validated) {
           $cart = Cart::where('user_id', $request->user()->id)
               ->lockForUpdate()
+    
               ->first();
 
-          if (!$cart) {
+    
+              if (!$cart) {
               return null;
-          }
+    
+              }
 
+    
           $cartItems = $cart->items()->lockForUpdate()->get();
+    
+
           if ($cartItems->isEmpty()) {
               return null;
-          }
+    
+    
+              }
+
 
           $products = Product::whereIn('id', $cartItems->pluck('product_id'))
               ->lockForUpdate()
@@ -85,19 +107,28 @@ class CartController extends Controller
               abort(422, 'One or more products in your cart are unavailable.');
           }
 
+
+
+
           $subtotal = $cartItems->sum(
-              fn ($item) => $products[$item->product_id]->price * $item->quantity
+   
+          fn ($item) => $products[$item->product_id]->price * $item->quantity
           );
+ 
           $shipping = $subtotal > 0 ? 150 : 0;
 
+
+   
           $order = Order::create([
               'user_id' => $request->user()->id,
                             'name' => $validated['full_name'],
                             'email' => $validated['email'],
                             'phone' => $validated['phone'],
+    
                             'shipping_address' => implode(', ', array_filter([
                                     $validated['area'],
                                     'Block ' . $validated['block'],
+    
                                     'Street ' . $validated['street'],
                                     'Building ' . $validated['building'],
                                     isset($validated['floor']) ? 'Floor ' . $validated['floor'] : null,
@@ -109,17 +140,17 @@ class CartController extends Controller
               'total' => $subtotal + $shipping,
           ]);
 
-          foreach ($cartItems as $item) {
-              $product = $products[$item->product_id];
-              $order->items()->create([
-                  'product_id' => $product->id,
-                  'name' => $product->name,
-                  'price' => $product->price,
-                  'quantity' => $item->quantity,
-              ]);
-          }
+foreach ($cartItems as $item) {
+    $products = $products[$item->product_id];
+    $order->Items()->create([
+        'product_id' => $products->id,
+        'name' => $products->name,
+        'price' => $products->price,
+        'quantity' => $item-> quantity
+    ]);
 
-          $cart->items()->delete();
+}
+            $cart->items()->delete();
 
           return $order;
       });
@@ -195,5 +226,7 @@ public function remove($id)
 
 
 
-
 }
+
+
+

@@ -48,6 +48,8 @@ class CheckoutRequest extends FormRequest
         return [
             'required' => 'This field is required.',
             'email.email' => 'Please enter a valid email address.',
+            
+
         ];
     }
 }
