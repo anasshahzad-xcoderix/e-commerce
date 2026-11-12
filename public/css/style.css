@@ -20,7 +20,7 @@ section[id] { scroll-margin-top: 90px; }
     position: sticky;
     top: 0;
     z-index: 100;
-    background: #fff;
+    background: #13284A;
     border-bottom: 1px solid #ececec;
 }
 .logo {
@@ -38,6 +38,7 @@ section[id] { scroll-margin-top: 90px; }
     width: 70px;
     height: 70px;
     object-fit: contain;
+    background: transparent;
 }
 .logo-icon { display: none; }
 
@@ -47,7 +48,7 @@ section[id] { scroll-margin-top: 90px; }
     display: flex;
     align-items: center;
     min-height: 68px;
-    color: #222;
+    color: #fcfcfc;
     text-decoration: none;
     text-transform: uppercase;
     font-weight: 600;
@@ -150,7 +151,7 @@ section[id] { scroll-margin-top: 90px; }
     height: 36px;
     border: 0;
     background: transparent;
-    color: #222;
+    color: #fdfdfd;
     text-decoration: none;
     transition: color 0.2s;
 }
@@ -604,13 +605,13 @@ card {
         background:
             radial-gradient(circle at 15% 20%, rgba(31, 122, 109, .14), transparent 45%),
             radial-gradient(circle at 85% 80%, rgba(255, 201, 51, .18), transparent 45%),
-            #f7f8fb;
+            #13284A;
     }
 
     .login-card {
         width: 100%;
         max-width: 440px;
-        background: #fff;
+        background: #13284A;
         border-radius: 24px;
         padding: 44px 36px 36px;
         text-align: center;
@@ -938,10 +939,18 @@ card {
 
 /* Login */
 
-    .auth-wrap { min-height: 70vh; display: flex; align-items: center; justify-content: center; padding: 40px 16px; }
-    .auth-card { width: 100%; max-width: 420px; background: #fff; padding: 32px; border-radius: 16px; box-shadow: 0 10px 30px rgba(20,35,59,0.08); }
-    .auth-card h2 { color: #14233b; margin-bottom: 20px; }
-    .auth-card label { display: block; font-size: 14px; font-weight: 600; margin: 14px 0 6px; color: #14233b; }
+    .auth-wrap {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 16px;
+        background: linear-gradient(rgba(20, 35, 59, .25), rgba(20, 35, 59, .25)),
+            url('../images/login.jpg') center / cover no-repeat;
+    }
+    .auth-card { width: 100%; max-width: 420px; background: #ffffff; padding: 32px; border-radius: 16px; border-color: #0000; box-shadow: 0 10px 30px rgba(20,35,59,0.08); }
+    .auth-card h2 { color: #000000; margin-bottom: 20px; }
+    .auth-card label { display: block; font-size: 14px; font-weight: 600; margin: 14px 0 6px; color: #000000; }
     .auth-card input { width: 100%; padding: 11px 14px; border: 1.5px solid #d6dde8; border-radius: 10px; font-size: 15px; }
     .auth-card input:focus { outline: none; border-color: #1f7a6d; }
     .auth-card button { width: 100%; margin-top: 22px; padding: 12px; border: 0; border-radius: 999px; background: #14233b; color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; }
