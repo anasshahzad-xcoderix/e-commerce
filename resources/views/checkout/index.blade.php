@@ -59,16 +59,6 @@
                 Enter your contact details and delivery address.
             </p>
 
-            @if($errors->any())
-                <div class="mb-6 rounded-xl bg-red-50 border border-red-300 text-red-700 px-4 py-3 text-sm" role="alert">
-                    <ul class="list-disc pl-5 space-y-1">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
             <form id="addressForm" method="POST" action="{{ route('checkout.place') }}" class="space-y-4" novalidate>
                 @csrf
 

@@ -25,9 +25,9 @@ class CheckoutRequest extends FormRequest
     {
         return [
             'full_name' => ['required', 'string', 'max:100'],
-            'email'     => ['required', 'email', 'max:150'],
+            'email'     => ['required', 'email', 'max:20'],
             'phone'     => ['required', 'string', 'max:20'],
-            'area'      => ['required', 'string', 'max:150'],
+            'area'      => ['required', 'string', 'max:50'],
             'block'     => ['required', 'string', 'max:20'],
             'street'    => ['required', 'string', 'max:150'],
             'building'  => ['required', 'string', 'max:50'],
@@ -46,10 +46,14 @@ class CheckoutRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'required' => 'This field is required.',
-            'email.email' => 'Please enter a valid email address.',
+            'full_name.required' => 'name is required',
+            'email.required' => 'email is required',
+            'phone.required' => 'phone number is required',
+            'area.required' => 'area is required',
+            'block.required' => 'block number is required',
+            'street.required' => 'street name is required',
+            'building.required' => 'building number is required',   
             
-
         ];
     }
 }
