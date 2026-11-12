@@ -147,8 +147,9 @@ section[id] { scroll-margin-top: 90px; }
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
+    margin: 15px;
     border: 0;
     background: transparent;
     color: #fdfdfd;
