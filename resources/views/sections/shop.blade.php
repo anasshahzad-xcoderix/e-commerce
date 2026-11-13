@@ -85,7 +85,7 @@
         <div class="mt-auto flex items-center justify-between pt-5">
             <span class="text-lg font-extrabold text-slate-900">Rs {{ number_format($product->price) }}</span>
 
-            <form method="POST" action="{{ route('cart.add', $product) }}">
+            <form method="POST" action="{{ route('cart.add', $product) }}" data-ajax-cart-form>
                 @csrf
                 <button type="submit"
                         class="rounded-full bg-amber-400 px-5 py-2 text-sm font-bold text-slate-900 shadow transition hover:bg-amber-500 active:scale-95">

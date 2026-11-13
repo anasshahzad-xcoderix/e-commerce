@@ -39,6 +39,8 @@ return redirect()->route('analytics');
     return view('auth.login');
 }
 
+
+
 public function login(Request $request)
 {
     $credentials = $request->validate([

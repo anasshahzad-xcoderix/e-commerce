@@ -69,4 +69,3 @@ Route::get('/product/{product}', [StoreController::class, 'productShow'])->name(
         Route::delete('/cart/{id}', [CartController::class, 'remove'])->name('cart.remove');
         Route::post('/checkout', [CartController::class, 'store'])->name('checkout.place');
     });
-

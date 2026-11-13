@@ -35,8 +35,30 @@ class CartController extends Controller
             return true;
         });
 
+        $cartCount = $this->currentCart()->items()->sum('quantity');
+
         if (!$added) {
+            $message = $product->name . ' is already in your cart.';
+
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $message,
+                    'count' => $cartCount,
+                ]);
+            }
+
             return back()->with('already_in_cart', $product->name);
+        }
+
+        $message = $product->name . ' added to cart.';
+
+        if (request()->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => $message,
+                'count' => $cartCount,
+            ]);
         }
 
         return back()->with('added', $product->name);
