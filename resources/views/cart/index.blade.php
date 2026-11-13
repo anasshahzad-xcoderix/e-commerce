@@ -35,7 +35,7 @@
                 {{-- Cart items --}}
                 <div class="lg:col-span-2 space-y-4">
                     @foreach($cart as $item)
-                        <div class="bg-white rounded-2xl border-2 border-gray-300 shadow-sm p-4 sm:p-5 flex flex-col sm:flex-row gap-4">
+                        <div class="bg-white rounded-2xl border-2 border-gray-300 shadow-sm p-4 sm:p-5 flex flex-col sm:flex-row gap-4" data-cart-item data-cart-item-id="{{ $item['id'] }}">
 
                             {{-- Image + name + price --}}
                             <div class="flex gap-4 flex-1 min-w-0">
@@ -59,17 +59,17 @@
                             <div class="flex items-center justify-between sm:justify-end gap-4 sm:gap-6">
 
                                 <div class="flex items-center border-2 border-gray-300 rounded-full overflow-hidden bg-white">
-                                    <form method="POST" action="{{ route('cart.update', $item['id']) }}">
+                                    <form method="POST" action="{{ route('cart.update', $item['id']) }}" data-cart-update-form data-cart-update-action="decrement">
                                         @csrf
                                         @method('PATCH')
-                                        <input type="hidden" name="qty" value="{{ $item['qty'] - 1 }}">
+                                        <input type="hidden" name="qty" value="{{ max(0, $item['qty'] - 1) }}">
                                         <button type="submit"
                                                 class="w-9 h-9 hover:bg-gray-100 text-gray-700 font-semibold transition">−</button>
                                     </form>
 
-                                    <span class="w-9 text-center text-sm font-medium">{{ $item['qty'] }}</span>
+                                    <span class="w-9 text-center text-sm font-medium" data-item-qty>{{ $item['qty'] }}</span>
 
-                                    <form method="POST" action="{{ route('cart.update', $item['id']) }}">
+                                    <form method="POST" action="{{ route('cart.update', $item['id']) }}" data-cart-update-form data-cart-update-action="increment">
                                         @csrf
                                         @method('PATCH')
                                         <input type="hidden" name="qty" value="{{ $item['qty'] + 1 }}">
@@ -78,12 +78,12 @@
                                     </form>
                                 </div>
 
-                                <div class="font-bold text-gray-900 whitespace-nowrap min-w-[90px] text-right">
+                                <div class="font-bold text-gray-900 whitespace-nowrap min-w-[90px] text-right" data-item-total>
                                     Rs {{ number_format($item['price'] * $item['qty']) }}
                                 </div>
 
                                                                 <form method="POST"
-                                      action="{{ route('cart.remove', $item['id']) }}">
+                                      action="{{ route('cart.remove', $item['id']) }}" data-cart-remove-form>
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
@@ -108,15 +108,15 @@
 
                     <div class="flex justify-between py-2 text-sm text-gray-600">
                         <span>Subtotal</span>
-                        <span>Rs {{ number_format($subtotal) }}</span>
+                        <span data-summary-subtotal>Rs {{ number_format($subtotal) }}</span>
                     </div>
                     <div class="flex justify-between py-2 text-sm text-gray-600">
                         <span>Delivery</span>
-                        <span>Rs {{ number_format($shipping) }}</span>
+                        <span data-summary-shipping>Rs {{ number_format($shipping) }}</span>
                     </div>
                     <div class="flex justify-between py-3 mt-2 border-t-2 border-gray-300 font-bold text-gray-900 text-lg">
                         <span>Total</span>
-                        <span>Rs {{ number_format($subtotal + $shipping) }}</span>
+                        <span data-summary-total>Rs {{ number_format($subtotal + $shipping) }}</span>
                     </div>
 
                     <a href="{{ route('checkout') }}"

@@ -6,7 +6,7 @@
             Ceramics, lighting, rugs and plants from independent makers,
             packed with care and delivered to your door in three days.
         </p>
-
+    
         <div class="hero-btns">
             <a href="#" class="pill pill-fill">Shop new arrivals</a>
             <a href="#" class="pill pill-line">Meet the makers</a>

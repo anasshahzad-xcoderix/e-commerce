@@ -312,7 +312,7 @@ section[id] { scroll-margin-top: 90px; }
     background: #14233b;
     border: #14233b;
     color: #fff;
-    transform: trbanslateY(-2px);
+    transform: translateY(-2px);
 }
 
 .stats {
@@ -381,13 +381,35 @@ section[id] { scroll-margin-top: 90px; }
     .pcard { padding: 12px; }
 }
 
-.cats { background: #f3f5f7; padding: 72px 0; }
-.cats-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 40px; }
+.cats {
+    background: #f3f5f7;
+    padding: 72px 0;
+}
+.cats-head {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap: 24px;
+    margin-bottom: 40px;
+}
 .cats-head h2 { font-size: clamp(30px, 4vw, 48px); line-height: 1.08; font-weight: 800; letter-spacing: -1.5px; max-width: 560px; }
 .cats-head p { color: #5b6b80; font-size: 15px; line-height: 1.6; max-width: 380px; }
 
-.cat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
-.cat { border-radius: 26px; padding: 22px 20px; display: flex; flex-direction: column; text-decoration: none; color: #14233b; transition: 0.25s; min-height: 290px; }
+.cat-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+}
+.cat {
+    border-radius: 26px;
+    padding: 2px 20px;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: #14233b;
+    transition: 0.25s;
+    min-height: 290px;
+}
 .cat:hover { transform: translateY(-6px); box-shadow: 0 16px 30px rgba(20, 35, 59, 0.12); }
 .cat svg { flex: 1; width: 100%; min-height: 0; margin-bottom: 14px; }
 .cat h3 { font-size: 18px; font-weight: 800; }
@@ -410,7 +432,7 @@ section[id] { scroll-margin-top: 90px; }
 @media (max-width: 420px) {
     .cat-grid { grid-template-columns: 1fr; }
 }
-
+    
 .reveal {
     opacity: 0;
     filter: blur(6px);
@@ -424,7 +446,6 @@ section[id] { scroll-margin-top: 90px; }
     .reveal { opacity: 1; filter: none; transform: none; transition: none; }
 }
 
-/* Benefits Section */
 
 
  .benefits { background: #f3f5f7; padding: 72px 0; }

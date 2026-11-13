@@ -71,14 +71,17 @@ class CartController extends Controller
         return view('cart.index', compact('cart', 'subtotal', 'shipping'));
     }
 
-  public function checkout()
-  {
+  
+
+  
+public function checkout()
+{
     [$cart, $subtotal, $shipping] = $this->buildCart();
+    
+    return view('checout.index' , compact('cart', 'subtotal' , 'shipping'));
+ 
 
-
-    return view('checkout.index', compact('cart', 'subtotal', 'shipping'));
-
-  }  
+}
 
   public function store(CheckoutRequest $request)
   {
@@ -165,34 +168,80 @@ class CartController extends Controller
 
 public function update(Request $request, $id)
 {
-    $request->Validate(['qty'=> 'required|integer|min:0|max:99']);
+    $request->validate(['qty' => 'required|integer|min:0|max:99']);
 
     $item = $this->currentCart()->items()->where('product_id', $id)->first();
 
-    if ($item) {
-        if ((int) $request->qty === 0){
+    if (!$item) {
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Item not found in cart.',
+                'count' => $this->currentCart()->items()->sum('quantity'),
+            ]);
+        }
+
+        return back();
+    }
+
+    $qty = (int) $request->qty;
+
+    if ($qty === 0) {
             $item->delete();
+        $qty = 0;
         } else {
-            $item->update(['quantity' => (int) $request->qty]);
-}
+        $item->update(['quantity' => $qty]);
+    }
+
+    $product = Product::find($id);
+    $subtotal = $this->currentCart()->items()->with('product')->get()->sum(
+        fn ($cartItem) => ($cartItem->product?->price ?? 0) * $cartItem->quantity
+    );
+    $shipping = $subtotal > 0 ? 150 : 0;
+    $count = $this->currentCart()->items()->sum('quantity');
+
+    if ($request->ajax()) {
+        return response()->json([
+            'success' => true,
+            'message' => 'Cart updated.',
+            'count' => $count,
+            'subtotal' => $subtotal,
+            'shipping' => $shipping,
+            'total' => $subtotal + $shipping,
+            'item' => [
+                'id' => $id,
+                'qty' => $qty,
+                'line_total' => $product ? ($product->price * $qty) : 0,
+            ],
+        ]);
     }
 
     return back();
-} 
+}
 
-   
-  
-
-
-
-
-public function remove($id)
+public function remove(Request $request, $id)
 {
     $this->currentCart()->items()->where('product_id', $id)->delete();
 
+    if ($request->ajax()) {
+        $subtotal = $this->currentCart()->items()->with('product')->get()->sum(
+            fn ($item) => ($item->product?->price ?? 0) * $item->quantity
+        );
+        $shipping = $subtotal > 0 ? 150 : 0;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Item removed from cart.',
+            'count' => $this->currentCart()->items()->sum('quantity'),
+            'subtotal' => $subtotal,
+            'shipping' => $shipping,
+            'total' => $subtotal + $shipping,
+            'removed' => true,
+        ]);
+    }
+
     return back();
 }
-
 
 
 }
