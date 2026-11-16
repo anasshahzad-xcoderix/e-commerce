@@ -60,7 +60,7 @@ Route::resource('categories', CategoryController::class)->except('show');
 Route::get('/products', [ProductController::class, 'index'])->name('products');
 Route::get('/product/{product}', [StoreController::class, 'productShow'])->name('product.show');
 
-
+    
     Route::middleware('auth')->group(function(){
         Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
         Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');

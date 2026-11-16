@@ -277,7 +277,6 @@ section[id] { scroll-margin-top: 90px; }
     color: #14233b;
 }
 
-
 .hero p.lead {
     margin-top: 24px;
     color: #5b6b80;
@@ -367,8 +366,12 @@ section[id] { scroll-margin-top: 90px; }
 .c-pink {
     background: #fde8fb;
 }
-.c-ice { background: #f1fbfd; }
-.c-mint { background: #f1fbec; }
+.c-ice {
+    background: #f1fbfd;
+}
+.c-mint {
+    background: #f1fbec;
+}
 
 .strip { background: #1f7a6d; color: #fff; }
 .strip .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px 24px; padding-top: 18px; padding-bottom: 18px; font-size: 15px; font-weight: 500; }

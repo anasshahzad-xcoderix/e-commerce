@@ -16,7 +16,7 @@ class CartController extends Controller
         return Cart::firstOrCreate(['user_id' => auth()->id()]);
     }
 
-    public function add(Product $product)
+    public function add(Request $request, Product $product)
     {
         $cart = $this->currentCart();
 
@@ -40,7 +40,7 @@ class CartController extends Controller
         if (!$added) {
             $message = $product->name . ' is already in your cart.';
 
-            if (request()->ajax()) {
+            if ($request->expectsJson()) {
                 return response()->json([
                     'success' => false,
                     'message' => $message,
@@ -53,7 +53,7 @@ class CartController extends Controller
 
         $message = $product->name . ' added to cart.';
 
-        if (request()->ajax()) {
+        if ($request->expectsJson()) {
             return response()->json([
                 'success' => true,
                 'message' => $message,
@@ -78,7 +78,7 @@ public function checkout()
 {
     [$cart, $subtotal, $shipping] = $this->buildCart();
     
-    return view('checout.index' , compact('cart', 'subtotal' , 'shipping'));
+    return view('checkout.index' , compact('cart', 'subtotal' , 'shipping'));
  
 
 }
