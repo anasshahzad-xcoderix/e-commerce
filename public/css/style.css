@@ -35,8 +35,8 @@ section[id] { scroll-margin-top: 90px; }
 }
 .logo-image {
     display: block;
-    width: 70px;
-    height: 70px;
+    width: 75px;
+    height: 75px;
     object-fit: contain;
     background: transparent;
 }

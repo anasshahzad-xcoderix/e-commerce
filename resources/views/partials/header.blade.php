@@ -6,7 +6,7 @@
 
 <header class="site-header">
     <a href="{{ url('/') }}" class="logo">
-        <img class="logo-image" src="{{ asset('images/yousaf-store-logo.jpg') }}" alt="Yousaf Store">
+        <img class="logo-image" src="{{ asset('images/yousaf-image.png') }}" alt="Yousaf Store">
     </a>
 
     <nav class="menu" id="menu" aria-label="Main navigation">
