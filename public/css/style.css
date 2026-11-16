@@ -276,11 +276,13 @@ section[id] { scroll-margin-top: 90px; }
     letter-spacing: -2px;
     color: #14233b;
 }
+
+
 .hero p.lead {
     margin-top: 24px;
     color: #5b6b80;
     font-size: 17px;
-    line-height: 1.7px;
+    line-height:1.7px;
     max-width: 480px;
 }
 .hero-btns {

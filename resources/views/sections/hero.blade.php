@@ -11,7 +11,7 @@
             <a href="#" class="pill pill-fill">Shop new arrivals</a>
             <a href="#" class="pill pill-line">Meet the makers</a>
         </div>
-
+    
         <div class="stats">
             <div class="stat"><span>Makers</span><strong>340</strong></div>
             <div class="stat"><span>Orders shipped</span><strong>92k</strong></div>
