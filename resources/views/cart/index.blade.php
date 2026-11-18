@@ -59,7 +59,7 @@
                             <div class="flex items-center justify-between sm:justify-end gap-4 sm:gap-6">
 
                                 <div class="flex items-center border-2 border-gray-300 rounded-full overflow-hidden bg-white">
-                                    <form method="POST" action="{{ route('cart.update', $item['id']) }}" data-cart-update-form data-cart-update-action="decrement">
+                                    <form id="updateCartForm-decrement-{{ $item['id'] }}" method="POST" action="{{ route('cart.update', $item['id']) }}">
                                         @csrf
                                         @method('PATCH')
                                         <input type="hidden" name="qty" value="{{ max(0, $item['qty'] - 1) }}">
@@ -69,7 +69,7 @@
 
                                     <span class="w-9 text-center text-sm font-medium" data-item-qty>{{ $item['qty'] }}</span>
 
-                                    <form method="POST" action="{{ route('cart.update', $item['id']) }}" data-cart-update-form data-cart-update-action="increment">
+                                    <form id="updateCartForm-increment-{{ $item['id'] }}" method="POST" action="{{ route('cart.update', $item['id']) }}">
                                         @csrf
                                         @method('PATCH')
                                         <input type="hidden" name="qty" value="{{ $item['qty'] + 1 }}">
@@ -81,8 +81,8 @@
                                 <div class="font-bold text-gray-900 whitespace-nowrap min-w-[90px] text-right" data-item-total>
                                     Rs {{ number_format($item['price'] * $item['qty']) }}
                                 </div>
-                                                                <form method="POST"
-                                      action="{{ route('cart.remove', $item['id']) }}" data-cart-remove-form>
+                                                                <form id="removeCartForm-{{ $item['id'] }}" method="POST"
+                                                                      action="{{ route('cart.remove', $item['id']) }}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"

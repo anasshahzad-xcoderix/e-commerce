@@ -77,4 +77,13 @@ class CartAddAjaxTest extends TestCase
 
         $this->assertSame(0, CartItem::count());
     }
+
+    public function test_cart_page_loads_for_an_authenticated_user(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->get(route('cart.index'))
+            ->assertOk();
+    }
 }

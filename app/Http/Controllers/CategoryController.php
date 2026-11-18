@@ -12,32 +12,36 @@ use App\Http\Requests\UpdateCategoryRequest;
 
 class CategoryController extends Controller
 {
-    public function index()
-    {
-        $categories = Category::withCount('products')->latest()->paginate(10);
-        return view('admin.categories.index', compact('categories'));
-    }
+   
+public function index()
+{
+    $categories = Category::withCount('products')->latest()->paginate(10);
+    return view('admin.categories.index', compact('categories'));
+}
+    
+public function create()
+{
+    return view('admin.categories.create');
+}
 
-    public function create()
-    {
-        return view('admin.categories.create');
-    }
-
-   public function store(StoreCategoryRequest $request)
+  
+public function store(StoreCategoryRequest $request)
 {
     $data = $request->validated();
     $data['slug'] = Str::slug($data['name']);
 
+
     Category::create($data);
+
 
     return redirect()->route('admin.categories.index')->with('success', 'Category will be add.');
 }
-    
-    public function edit(Category $category)
-    {
-        return view('admin.categories.edit', compact('category'));
-    }
 
+    
+public function edit(Category $category)
+{
+    return view('admin.categories.edit', compact('category'));
+}
    public function update(UpdateCategoryRequest $request, Category $category)
 {
     $data = $request->validated();
@@ -48,22 +52,27 @@ class CategoryController extends Controller
     return redirect()->route('admin.categories.index')->with('success', 'Category will be add.');
 }
 
-    public function destroy(Category $category)
-    {
-        if ($category->products()->exists()) {
-            return back()->with('error', 'products already in the category. first deleted.');
-        }
-
-        $category->delete();
-
-        return redirect()->route('admin.categories.index')->with('success', 'Collection has been deleted.');
+   
+public function destroy(category $category)
+{
+    if ($category->products()->exists()){
+        return back()->with('error', 'product already in the category. first deleted');
     }
+    $category->delete();
+    return redirect()->route('admin.categories.index')->with('success', 'Collection has been deleted.');
+}
+   
 
-    private function validateData(Request $request, $id = null): array
+
+
+    private function validateData(Request $request,$id = null): array
+
     {
         return $request->validate([
-            'name' => 'required|string|max:100|unique:categories,name,' . $id,
+            'name' => 'required|string|max:100|unique:categories,name' . $id,
             'description' => 'nullable|string|max:500',
         ]);
+
+        
     }
 }

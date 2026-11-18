@@ -69,23 +69,23 @@ class CartController extends Controller
         return back()->with('added', $product->name);
     }
 
-    public function index()
-    {
-        [$cart, $subtotal, $shipping] = $this->buildCart();
-    
-        return view('cart.index', compact('cart', 'subtotal', 'shipping'));
-    }
+   
+
+  public function index()
+  {
+    [$cart, $subtotal, $shipping] = $this->buildCart();
+
+    return view('cart.index', compact('cart', 'subtotal', 'shipping'));
+  }
 
   
 
-  
+
 public function checkout()
 {
-    [$cart, $subtotal, $shipping] = $this->buildCart();
-    
-    return view('checkout.index' , compact('cart', 'subtotal' , 'shipping'));
- 
+    [$cart, $subtotal, $shipping] = $this-> buildCart();
 
+    return view('checkout.index' , compact('cart' , 'subtotal' , 'shipping'));
 }
 
   public function store(CheckoutRequest $request)
@@ -120,13 +120,13 @@ public function checkout()
           );
           $shipping = $subtotal > 0 ? 150 : 0;
 
-          $order = Order::create([
-              'user_id' => $request->user()->id,
-              'subtotal' => $subtotal,
-              'shipping' => $shipping,
-              'total' => $subtotal + $shipping,
-          ]);
-
+          
+$order = Order::create([
+    'user_id' => $request->user()->id,
+    'subtotal' => $subtotal,
+    'shipping' => $shipping,
+    'total' => $subtotal + $shipping,
+]);
           foreach ($cartItems as $item) {
               $product = $products[$item->product_id];
               $order->items()->create([

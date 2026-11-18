@@ -7,10 +7,15 @@ use App\Models\Product;
 
 class HomeController extends Controller
 {
+   
+
+
+
     public function index()
     {
-        $products = Product::with('category')->latest()->get(); 
+        $products = Product::with('category')->latest()->get();
         $categories = Category::orderBy('name')->get();
+
 
         return view('home', compact('products', 'categories'));
     }

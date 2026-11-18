@@ -9,10 +9,14 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-     public function showRegister()
-    {
-        return view('auth.register');
-    }
+   
+public function showRegister()
+{
+    return view ('auth.register');
+}
+
+
+
 
         public function register(Request $request)
         {
@@ -21,6 +25,7 @@ class AuthController extends Controller
                 'email'    => 'required|email|unique:users,email',
                 'password' => 'required|min:6|confirmed',
             ]);
+
 
             $user = User::create([
                 'name'     => $data['name'],
@@ -34,12 +39,11 @@ return redirect()->route('analytics');
     }
 
 
-    public function showLogin()
+
+public function showLogin()
 {
     return view('auth.login');
 }
-
-
 
 public function login(Request $request)
 {
@@ -57,14 +61,18 @@ return redirect()->intended(route('analytics'));
         ->withErrors(['email' => 'wrong email or password'])
         ->onlyInput('email');
 }
+
 public function logout(Request $request)
+
 {
     Auth::logout();
 
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 
+
     return redirect()->route('login');
+
 }
 
 }

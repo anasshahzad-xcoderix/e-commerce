@@ -6,11 +6,11 @@ use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-    public function show()
-    {
-        return view('contact');
-    }
-
+    
+public function show()
+{
+    return view('contact');
+}
     public function send(Request $request)
     {
         $data = $request->validate([

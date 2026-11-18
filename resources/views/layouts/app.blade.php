@@ -69,14 +69,16 @@
                     }
                 }
 
-                function formatCurrency(value) {
-                    return 'Rs ' + Number(value || 0).toLocaleString('en-US');
-                }
+                
+function formatCurrency(value) {
+      return 'Rs ' + Number(value || 0).toLocaleString('en-US');
+}
+                
 
-                function syncCartSummary(data) {
+     function syncCartSummary(data) {
                     if (!data) return;
-
      
+
                    const subtotalEl = document.querySelector('[data-summary-subtotal]');
                     const shippingEl = document.querySelector('[data-summary-shipping]');
     
@@ -103,8 +105,8 @@
                     if (qtyEl) qtyEl.textContent = data.item.qty;
                     if (totalEl) totalEl.textContent = formatCurrency(data.item.line_total);
 
-                    const minusInput = itemRow.querySelector('form[data-cart-update-form][data-cart-update-action="decrement"] input[name="qty"]');
-                    const plusInput = itemRow.querySelector('form[data-cart-update-form][data-cart-update-action="increment"] input[name="qty"]');
+                    const minusInput = itemRow.querySelector('form[id^="updateCartForm-decrement-"] input[name="qty"]');
+                    const plusInput = itemRow.querySelector('form[id^="updateCartForm-increment-"] input[name="qty"]');
                     if (minusInput) minusInput.value = Math.max(0, Number(data.item.qty) - 1);
                     if (plusInput) plusInput.value = Number(data.item.qty) + 1;
                 }
@@ -131,7 +133,6 @@
                             'Accept': 'application/json'
                         }
                     })
-                        
                         .done(function (response) {
                             updateCartBadge(Number(response.count || 0));
                             showCartToast(
@@ -148,24 +149,28 @@
                         });
                 });
 
-                $(document).on('submit', 'form[data-cart-update-form]', function (event) {
+                $(document).on('submit', 'form[id^="updateCartForm-"]', function (event) {
                     event.preventDefault();
 
                     const updateForm = this;
 
-                    $.ajax({
-                        url: updateForm.action,
-                        method: 'POST',
-                        data: new FormData(updateForm),
-                        processData: false,
-                        contentType: false,
-                        dataType: 'json',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') || '',
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'Accept': 'application/json'
-                        }
-                    })
+                 
+
+$.ajax({
+    url: updateForm.action,
+    method: 'POST',
+    data: new FormData(updateForm),
+    processData: false,
+    contentType: false,
+    dataType: 'json',
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') || '',
+        'X-Requested-with' : 'XMLHttpRequest',
+        'Accept': 'application/json'
+    }
+})
+
+
                         .done(function (response) {
                             if (!response || !response.success) {
                                 showCartToast(response?.message || 'Unable to update cart.', 'error');
@@ -181,20 +186,18 @@
                             syncCartSummary(response);
                             updateCartBadge(Number(response.count || 0));
                         })
-                       
-
-.fail(function (xhr) {
-    const message = xhr.responseJSON?.message || 'Unable to update cart.';
-    showCartToast(message, 'error');
-});
-            
+                        .fail(function (xhr) {
+                            const message = xhr.responseJSON?.message || 'Unable to update cart.';
+                            showCartToast(message, 'error');
+                        });
                 });
 
-                $(document).on('submit', 'form[data-cart-remove-form]', function (event) {
+                $(document).on('submit', 'form[id^="removeCartForm-"]', function (event) {
                     event.preventDefault();
 
                     const removeForm = this;
                     const itemId = removeForm.action.split('/').pop();
+
 
                     $.ajax({
                         url: removeForm.action,
@@ -209,6 +212,11 @@
                             'Accept': 'application/json'
                         }
                     })
+
+
+
+
+
                         .done(function (response) {
                             if (!response || !response.success) {
                                 showCartToast(response?.message || 'Unable to remove item.', 'error');
@@ -227,11 +235,14 @@
             </script>
             @if(session('already_in_cart'))
                
-               <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        showCartToast(@json(session('already_in_cart') . ' is already in your cart. You can change its quantity from the cart page.'), 'error');
-                    });
-                </script>
+             
+
+<script>
+    document.addEventListner('DOMContentLoaded', function (){
+        showCartToast(@json(session('already_in_cart') . 'is already in your cart. you can change the its quantity from the cart page'), 'error');
+    })
+    </script>
+                
             @endif
         </body>
         </html>

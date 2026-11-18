@@ -14,6 +14,7 @@ class StoreController extends Controller
 
         return view('pages.section', compact('section', 'title', 'products', 'categories'));
     }
+
 public function shop(Request $request)
 {
     $categories = Category::orderBy('name')->get();

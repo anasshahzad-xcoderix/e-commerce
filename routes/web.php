@@ -56,10 +56,10 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('products', ProductController::class)->except('show');
 });
 
-Route::resource('categories', CategoryController::class)->except('show');
-Route::get('/products', [ProductController::class, 'index'])->name('products');
-Route::get('/product/{product}', [StoreController::class, 'productShow'])->name('product.show');
 
+Route::resource('categories', CategoryController::class)->except('show');
+Route::get('/products', [PoductController::class, 'index'])->name('products');
+Route::get('/product/{product}', [StoreController::class, 'productShow'])->name('product.show');
     
     Route::middleware('auth')->group(function(){
         Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

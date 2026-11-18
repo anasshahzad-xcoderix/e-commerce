@@ -13,17 +13,23 @@ use App\Http\Requests\UpdateProductRequest;
 
 class ProductController extends Controller
 {
-         public function index()
-         {
-        $products = Product::with('category')->latest()->paginate(10);
-             return view('admin.products.index', compact('products'));
-    }
      
-              public function create()
+     
+    public function index()
     {
-             $categories = Category::orderBy('name')->get();
-            return view('admin.products.create', compact('categories'));
-         }
+        $products = Product::with('category')->latest()->paginate(10);
+          return view('admin.products.index', compact('products'));
+    }
+
+
+      
+
+public function create()
+{
+    $categories = Category::orderBy('name')->get();
+    return view('admin.products.create', compact('categories'));
+}
+
          public function store(StoreProductRequest $request)
          {
                  $data = $request->validated();
