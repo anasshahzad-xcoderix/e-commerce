@@ -95,8 +95,9 @@
 
             {{-- Buy bar --}}
             <div class="sticky bottom-0 z-10 -mx-4 mt-6 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur sm:-mx-0 sm:border-0 sm:bg-transparent sm:p-0 lg:static">
-                <form method="POST" action="{{ route('cart.add', $product) }}" class="flex items-center gap-3" data-ajax-cart-form>
+                <form id="addToCartForm" method="POST" action="{{ route('cart.add') }}" class="flex items-center gap-3">
                     @csrf
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
                     <button type="submit" @disabled($product->stock < 1)
                             class="flex flex-1 items-center justify-center gap-3 rounded-xl bg-amber-400 px-5 py-3.5 font-bold text-slate-900 shadow transition hover:bg-amber-500 active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-slate-300">
                         <span>Add to cart</span>

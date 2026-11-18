@@ -11,7 +11,7 @@
 
         @if(session('added'))
             <div class="mb-6 rounded-xl bg-green-50 border border-green-300 text-green-800 px-4 py-3 text-sm">
-                "{{ session('added') }}" cart mein add ho gaya.
+                "{{ session('added') }}" add in the cart.
             </div>
         @endif
 
@@ -29,7 +29,7 @@
                     Start Shopping
                 </a>
             </div>
-        @else
+        @else   
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
 
                 {{-- Cart items --}}
@@ -81,7 +81,6 @@
                                 <div class="font-bold text-gray-900 whitespace-nowrap min-w-[90px] text-right" data-item-total>
                                     Rs {{ number_format($item['price'] * $item['qty']) }}
                                 </div>
-
                                                                 <form method="POST"
                                       action="{{ route('cart.remove', $item['id']) }}" data-cart-remove-form>
                                     @csrf

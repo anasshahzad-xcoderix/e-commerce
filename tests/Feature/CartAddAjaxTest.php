@@ -24,7 +24,7 @@ class CartAddAjaxTest extends TestCase
 
         $response = $this->actingAs($user)
             ->withHeaders(['X-Requested-With' => 'XMLHttpRequest'])
-            ->postJson(route('cart.add', $product));
+            ->postJson(route('cart.add'), ['product_id' => $product->id]);
 
         $response->assertOk()->assertJson([
             'success' => true,
@@ -50,11 +50,11 @@ class CartAddAjaxTest extends TestCase
 
         $this->actingAs($user)
             ->withHeaders(['X-Requested-With' => 'XMLHttpRequest'])
-            ->postJson(route('cart.add', $product))
+            ->postJson(route('cart.add'), ['product_id' => $product->id])
             ->assertOk()
             ->assertJson(['success' => true, 'count' => 1]);
 
-        $response = $this->postJson(route('cart.add', $product));
+        $response = $this->postJson(route('cart.add'), ['product_id' => $product->id]);
 
         $response->assertOk()->assertJson([
             'success' => false,
@@ -63,5 +63,18 @@ class CartAddAjaxTest extends TestCase
         ]);
 
         $this->assertSame(1, CartItem::count());
+    }
+
+    public function test_it_requires_a_valid_product_id(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->postJson(route('cart.add'));
+
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors('product_id');
+
+        $this->assertSame(0, CartItem::count());
     }
 }

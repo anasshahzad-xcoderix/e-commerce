@@ -16,8 +16,13 @@ class CartController extends Controller
         return Cart::firstOrCreate(['user_id' => auth()->id()]);
     }
 
-    public function add(Request $request, Product $product)
+    public function add(Request $request)
     {
+        $validated = $request->validate([
+            'product_id' => ['required', 'integer', 'exists:products,id'],
+        ]);
+        $product = Product::findOrFail($validated['product_id']);
+
         $cart = $this->currentCart();
 
         $added = DB::transaction(function () use ($cart, $product) {

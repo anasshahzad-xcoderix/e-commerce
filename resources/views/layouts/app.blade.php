@@ -40,19 +40,32 @@
                     alert(message);
                 }
 
-                function updateCartBadge(count) {
-                    const badge = document.querySelector('.cart-badge');
+       
+             function updateCartBadge(count) {
+                    const badge = document.getElementById('cart-badge');
                     if (badge) {
-                        badge.textContent = count;
+      
+                  if (Number(count) > 0) {
+                            badge.textContent = count;
+      
+                      } else {
+                            badge.remove();
+        
+                    }
                         return;
                     }
 
-                    const cartLink = document.querySelector('.cart-icon-btn');
-                    if (cartLink && count > 0) {
+    
+                    const cartLink = document.getElementById('cart-icon-btn');
+                    if (cartLink && Number(count) > 0) {
                         const badgeEl = document.createElement('span');
+    
+                        badgeEl.id = 'cart-badge';
                         badgeEl.className = 'cart-badge';
+    
                         badgeEl.textContent = count;
                         cartLink.appendChild(badgeEl);
+
                     }
                 }
 
@@ -63,19 +76,25 @@
                 function syncCartSummary(data) {
                     if (!data) return;
 
-                    const subtotalEl = document.querySelector('[data-summary-subtotal]');
+     
+                   const subtotalEl = document.querySelector('[data-summary-subtotal]');
                     const shippingEl = document.querySelector('[data-summary-shipping]');
-                    const totalEl = document.querySelector('[data-summary-total]');
+    
+                const totalEl = document.querySelector('[data-summary-total]');
 
+                
                     if (subtotalEl && typeof data.subtotal !== 'undefined') subtotalEl.textContent = formatCurrency(data.subtotal);
-                    if (shippingEl && typeof data.shipping !== 'undefined') shippingEl.textContent = formatCurrency(data.shipping);
-                    if (totalEl && typeof data.total !== 'undefined') totalEl.textContent = formatCurrency(data.total);
+    
+                if (shippingEl && typeof data.shipping !== 'undefined') shippingEl.textContent = formatCurrency(data.shipping);
+    
+                if (totalEl && typeof data.total !== 'undefined') totalEl.textContent = formatCurrency(data.total);
                 }
 
                 function syncCartItem(data) {
                     if (!data || !data.item) return;
 
-                    const itemRow = document.querySelector('[data-cart-item-id="' + data.item.id + '"]');
+        
+                const itemRow = document.querySelector('[data-cart-item-id="' + data.item.id + '"]');
                     if (!itemRow) return;
 
                     const qtyEl = itemRow.querySelector('[data-item-qty]');
@@ -90,7 +109,7 @@
                     if (plusInput) plusInput.value = Number(data.item.qty) + 1;
                 }
 
-                $(document).on('submit', 'form[data-ajax-cart-form]', function (event) {
+                $(document).on('submit', 'form[id^="addToCartForm"]', function (event) {
                     event.preventDefault();
 
                     const cartForm = this;
@@ -207,7 +226,8 @@
                 });
             </script>
             @if(session('already_in_cart'))
-                <script>
+               
+               <script>
                     document.addEventListener('DOMContentLoaded', function () {
                         showCartToast(@json(session('already_in_cart') . ' is already in your cart. You can change its quantity from the cart page.'), 'error');
                     });
@@ -215,3 +235,6 @@
             @endif
         </body>
         </html>
+
+
+

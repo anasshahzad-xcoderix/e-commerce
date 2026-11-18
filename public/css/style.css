@@ -40,9 +40,14 @@ section[id] { scroll-margin-top: 90px; }
     object-fit: contain;
     background: transparent;
 }
-.logo-icon { display: none; }
-
-.menu { display: flex; align-items: stretch; gap: clamp(14px, 2vw, 28px); }
+.logo-icon {
+    display: none;
+}
+.menu {
+    display: flex;
+    align-items: stretch;
+    gap: clamp(14px, 2vw, 28px);
+}
 .menu a {
     position: relative;
     display: flex;
@@ -56,8 +61,11 @@ section[id] { scroll-margin-top: 90px; }
     white-space: nowrap;
     transition: color 0.2s;
 }
-.menu a:hover, .menu a.active { color: #e7ad00; }
+.menu a:hover, .menu a.active {
+    color: #e7ad00;
+}
 .menu a:first-child { color: #e7ad00; }
+
 .menu a:first-child::after {
     position: absolute;
     right: 0;
