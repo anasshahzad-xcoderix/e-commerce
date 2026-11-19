@@ -347,7 +347,10 @@ section[id] { scroll-margin-top: 90px; }
     background: #fff;
 }
 .best-seller-image-slot {
+    display: block;
+    width: 100%;
     aspect-ratio: 4 / 5;
+    object-fit: cover;
     background: #f3f0eb;
 }
 @media (max-width: 1000px) {
