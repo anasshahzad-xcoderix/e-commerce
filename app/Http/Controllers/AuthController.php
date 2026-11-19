@@ -40,17 +40,20 @@ return redirect()->route('analytics');
 
 
 
+
 public function showLogin()
 {
     return view('auth.login');
 }
-
 public function login(Request $request)
 {
     $credentials = $request->validate([
         'email'    => 'required|email',
         'password' => 'required',
     ]);
+
+
+
 
     if (Auth::attempt($credentials, $request->boolean('remember'))) {
         $request->session()->regenerate();
@@ -74,6 +77,11 @@ public function logout(Request $request)
     return redirect()->route('login');
 
 }
+
+
+
+
+
 
 }
 

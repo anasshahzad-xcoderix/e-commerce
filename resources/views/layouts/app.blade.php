@@ -115,6 +115,9 @@ function formatCurrency(value) {
                     event.preventDefault();
 
                     const cartForm = this;
+                    const csrfToken = $(cartForm).find('input[name="_token"]').val()
+                        || $('meta[name="csrf-token"]').attr('content')
+                        || '';
                     const button = $(cartForm).find('button[type="submit"]');
                     const originalText = button.html();
 
@@ -128,19 +131,31 @@ function formatCurrency(value) {
                         contentType: false,
                         dataType: 'json',
                         headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') || '',
+                            'X-CSRF-TOKEN': csrfToken,
                             'X-Requested-With': 'XMLHttpRequest',
                             'Accept': 'application/json'
                         }
                     })
-                        .done(function (response) {
-                            updateCartBadge(Number(response.count || 0));
-                            showCartToast(
-                                response.message || 'Product added to cart.',
-                                response.success === false ? 'error' : 'success'
-                            );
-                        })
+                        
+
+                      .done(function (response) {
+                        updateCartBadge(Number(response.count || 0));
+                        showCartToast(
+                            response.messsage || 'Product added to cart.',
+                            response.success === false ? 'error' : 'success'
+                        );
+                      })
+
                         .fail(function (xhr) {
+                            if (xhr.status === 419) {
+                                showCartToast('Your page session expired. Reloading...', 'error');
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 800);
+                                return;
+                            }
+                        
+
                             const message = xhr.responseJSON?.message || 'Something went wrong. Please try again.';
                             showCartToast(message, 'error');
                         })
@@ -153,23 +168,23 @@ function formatCurrency(value) {
                     event.preventDefault();
 
                     const updateForm = this;
+                    const csrfToken = $(updateForm).find('input[name="_token"]').val()
+                        || $('meta[name="csrf-token"]').attr('content')
+                        || '';
 
-                 
-
-$.ajax({
-    url: updateForm.action,
-    method: 'POST',
-    data: new FormData(updateForm),
-    processData: false,
-    contentType: false,
-    dataType: 'json',
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') || '',
-        'X-Requested-with' : 'XMLHttpRequest',
-        'Accept': 'application/json'
-    }
-})
-
+                    $.ajax({
+                        url: updateForm.action,
+                        method: 'POST',
+                        data: new FormData(updateForm),
+                        processData: false,
+                        contentType: false,
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken,
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json'
+                        }
+                    })
 
                         .done(function (response) {
                             if (!response || !response.success) {
@@ -187,6 +202,13 @@ $.ajax({
                             updateCartBadge(Number(response.count || 0));
                         })
                         .fail(function (xhr) {
+                            if (xhr.status === 419) {
+                                showCartToast('Your page session expired. Reloading...', 'error');
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 800);
+                                return;
+                            }
                             const message = xhr.responseJSON?.message || 'Unable to update cart.';
                             showCartToast(message, 'error');
                         });
@@ -196,6 +218,9 @@ $.ajax({
                     event.preventDefault();
 
                     const removeForm = this;
+                    const csrfToken = $(removeForm).find('input[name="_token"]').val()
+                        || $('meta[name="csrf-token"]').attr('content')
+                        || '';
                     const itemId = removeForm.action.split('/').pop();
 
 
@@ -207,7 +232,7 @@ $.ajax({
                         contentType: false,
                         dataType: 'json',
                         headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') || '',
+                            'X-CSRF-TOKEN': csrfToken,
                             'X-Requested-With': 'XMLHttpRequest',
                             'Accept': 'application/json'
                         }
@@ -228,21 +253,27 @@ $.ajax({
                             updateCartBadge(Number(response.count || 0));
                         })
                         .fail(function (xhr) {
+                            if (xhr.status === 419) {
+                                showCartToast('Your page session expired. Reloading...', 'error');
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 800);
+                                return;
+                            }
                             const message = xhr.responseJSON?.message || 'Unable to remove item.';
                             showCartToast(message, 'error');
                         });
                 });
             </script>
             @if(session('already_in_cart'))
-               
-             
-
-<script>
-    document.addEventListner('DOMContentLoaded', function (){
-        showCartToast(@json(session('already_in_cart') . 'is already in your cart. you can change the its quantity from the cart page'), 'error');
-    })
-    </script>
-                
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        showCartToast(
+                            @json(session('already_in_cart') . ' is already in your cart. You can change its quantity from the cart page'),
+                            'error'
+                        );
+                    });
+                </script>
             @endif
         </body>
         </html>

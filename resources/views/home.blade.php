@@ -4,6 +4,7 @@
 
 @section('content')
     @include('sections.hero')
+    @include('sections.best-sellers')
     @include('sections.features')
     @include('sections.categories')
     @include('sections.shop')

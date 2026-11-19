@@ -71,22 +71,27 @@ class CartController extends Controller
 
    
 
+ 
   public function index()
   {
     [$cart, $subtotal, $shipping] = $this->buildCart();
 
+
     return view('cart.index', compact('cart', 'subtotal', 'shipping'));
   }
 
-  
+
+
 
 
 public function checkout()
 {
     [$cart, $subtotal, $shipping] = $this-> buildCart();
 
+
     return view('checkout.index' , compact('cart' , 'subtotal' , 'shipping'));
 }
+
 
   public function store(CheckoutRequest $request)
   {
@@ -136,6 +141,9 @@ $order = Order::create([
                   'quantity' => $item->quantity,
               ]);
           }
+
+
+
 
           $cart->items()->delete();
 

@@ -51,7 +51,7 @@
     function tick() {
         const now = new Date();
         const end = new Date(now);
-        end.setHours(24, 0, 0, 0);               // aaj raat 12 baje
+        end.setHours(24, 0, 0, 0);             
         const diff = Math.floor((end - now) / 1000);
 
         h.textContent = pad(Math.floor(diff / 3600));

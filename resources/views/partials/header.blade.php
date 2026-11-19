@@ -41,9 +41,11 @@
         </a>
 
         <details class="account-menu">
-            <summary class="account-trigger" aria-label="Account menu">
-                <img src="{{ asset('images/account-icon.png') }}" alt="account">
-            </summary>
+            
+
+            <summary class="account-trigger" arial-label="Account manue">
+                <img src="{{ asset('images/account-icon.png')}}" alt="account">
+</summary>
             <div class="account-dropdown">
                 @guest
                     <a href="{{ route('login') }}" class="account-dropdown-signin">Sign In</a>
@@ -56,6 +58,9 @@
                         @csrf
                         <button type="submit" class="account-dropdown-link">Logout</button>
                     </form>
+                   
+               
+
                 @endauth
             </div>
         </details>

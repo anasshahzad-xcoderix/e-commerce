@@ -5,7 +5,6 @@
             <h2>Shop by the room you're decorating</h2>
             <p>Choose a category to explore. Every piece is made in small batches by independent makers.</p>
         </div>
-
         <div class="cat-grid">
 
             <a href="#" class="cat cat-1">
