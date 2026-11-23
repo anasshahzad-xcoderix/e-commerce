@@ -1,5 +1,8 @@
-.cat-wrap { max-width: 900px; }
+.cat-wrap {
+    max-width: 900px;
+}
 .cat-head { margin-bottom: 16px; }
+
 .cat-table { width: 100%; border-collapse: collapse; background: #131a2e; border-radius: 12px; overflow: hidden; }
 .cat-table th, .cat-table td { padding: 12px; border-bottom: 1px solid #1f2a44; text-align: left; color: #e5e7eb; }
 .cat-table th { color: #8b93a7; font-size: 13px; text-transform: uppercase; }

@@ -56,6 +56,11 @@ public function shop(Request $request)
     {
         return $this->page('faq', 'Help');
     }
+public function aboutus()
+
+{
+    return $this->page('about us', 'About Us');
+}
 
     public function contact()
 

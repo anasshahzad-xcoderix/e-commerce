@@ -10,8 +10,15 @@
     border-radius: 14px;
     padding: 20px;
 }
-.acc-card span { color: #6b7280; font-size: 14px; }
-.acc-card strong { display: block; font-size: 28px; margin-top: 6px; }
+.acc-card span {
+    color: #6b7280;
+    font-size: 14px;
+}
+.acc-card strong {
+    display: block;
+    font-size: 28px;
+    margin-top: 6px;
+}
 .acc-box {
     background: #fff;
     border: 1px solid #e5e7eb;

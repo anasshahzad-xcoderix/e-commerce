@@ -2,7 +2,7 @@
     $columns = [
         'Shop'    => ['New arrivals', 'Categories', 'Daily sale', 'Gift cards'],
         'Support' => ['Delivery', 'Returns', 'Payments', 'Contact us'],
-        'Company' => ['Our makers', 'Sell with us', 'Sustainability', 'Careers'],
+        'Company' => ['About Us', 'Our makers', 'Sell with us', 'Sustainability', 'Careers'],
     ];
     $payments = ['Visa', 'Mastercard', 'Amex', 'PayPal', 'Apple Pay'];
 @endphp
@@ -52,7 +52,9 @@
                     <h4>{{ $title }}</h4>
                     <ul>
                         @foreach ($links as $link)
-                            <li><a href="#">{{ $link }}</a></li>
+                            <li>
+                                <a href="{{ $link === 'About Us' ? route('aboutus') : '#' }}">{{ $link }}</a>
+                            </li>
                         @endforeach
                     </ul>
                 </div>

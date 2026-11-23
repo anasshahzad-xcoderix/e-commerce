@@ -13,6 +13,7 @@
     @include('sections.benefits')
     @include('sections.makers')
     @include('sections.reviews')
+    @include('sections.image-story')
     @include('sections.faq')
     @include('sections.newsletter')
 @endsection 

@@ -2,8 +2,9 @@
     <div class="wrap">
         <div class="best-sellers-heading">
             <p class="best-sellers-eyebrow">CUSTOMER FAVORITES</p>
-            <h2 id="best-sellers-title">Best Products</h2>
+            <h2 id="best-sellers-title">Bets Profucts</h2>
         </div>
+
 
         <div class="best-sellers-grid">
             @for ($slot = 1; $slot <= 4; $slot++)

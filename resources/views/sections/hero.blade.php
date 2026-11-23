@@ -4,7 +4,11 @@
         alt="Modern home decor: beautiful things for a happier home"
         class="hero-banner-image"
     >
-    <a class="hero-banner-cta" href="{{ route('shop') }}">
-        Shop Now <span aria-hidden="true">&rarr;</span>
-    </a>
+    
+
+<a class="hero-banner-cta" href="{{ route('shop') }}">
+    Shop Now <span aria-hidden="true">&rarr;</span>
+</a>
+
+
 </section>

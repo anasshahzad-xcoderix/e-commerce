@@ -16,6 +16,7 @@
         <a href="{{ route('makers') }}" class="{{ request()->routeIs('makers') ? 'active' : '' }}">Makers</a>
         <a href="{{ route('help') }}" class="{{ request()->routeIs('help') ? 'active' : '' }}">Help</a>
         <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
+        <a href="{{ route('aboutus') }}" class="{{ request()->routeIs('aboutus') ? 'active' : '' }}"> About Us</a>   
     </nav>
 
     <form class="header-search" method="GET" action="{{ route('shop') }}" role="search">
