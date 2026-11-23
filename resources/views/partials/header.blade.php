@@ -10,12 +10,12 @@
     </a>
 
     <nav class="menu" id="menu" aria-label="Main navigation">
-        <a href="{{ route('shop') }}">Shop</a>
-        <a href="{{ url('/#categories') }}">Categories</a>
-        <a href="{{ route('daily-sale') }}">Daily sale</a>
-        <a href="{{ route('makers') }}">Makers</a>
-        <a href="{{ route('help') }}">Help</a>
-        <a href="{{ route('contact') }}">Contact</a>
+        <a href="{{ route('shop') }}" class="{{ request()->routeIs('shop') ? 'active' : '' }}">Shop</a>
+        <a href="{{ url('/#categories') }}" class="{{ request()->routeIs('categories') ? 'active' : '' }}">Categories</a>
+        <a href="{{ route('daily-sale') }}" class="{{ request()->routeIs('daily-sale') ? 'active' : '' }}">Daily sale</a>
+        <a href="{{ route('makers') }}" class="{{ request()->routeIs('makers') ? 'active' : '' }}">Makers</a>
+        <a href="{{ route('help') }}" class="{{ request()->routeIs('help') ? 'active' : '' }}">Help</a>
+        <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
     </nav>
 
     <form class="header-search" method="GET" action="{{ route('shop') }}" role="search">

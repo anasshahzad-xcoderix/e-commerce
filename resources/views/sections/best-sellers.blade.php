@@ -33,9 +33,6 @@
                 class="best-seller-image-slot"
                 src="{{ asset('images/rugs.jpg') }}"
                 alt="rugs">
-
-
-
                     @else
                         <div
                             class="best-seller-image-slot"

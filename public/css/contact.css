@@ -1,11 +1,11 @@
 :root {
-    --primary: #6c5ce7;
-    --primary-dark: #4b3fc7;
-    --dark: #1e1b3a;
-    --text: #4a4a68;
-    --light: #f5f6fb;
+    --primary: #1f7a6d;
+    --primary-dark: #176358;
+    --dark: #13284a;
+    --text: #526174;
+    --light: #f6f8fa;
     --white: #ffffff;
-    --border: #e3e5f0;
+    --border: #dfe5ec;
 }
 
 .contact-hero {
@@ -104,7 +104,7 @@
     outline: none;
     border-color: var(--primary);
     background: var(--white);
-    box-shadow: 0 0 0 4px rgba(108, 92, 231, .12);
+    box-shadow: 0 0 0 4px rgba(31, 122, 109, .14);
 }
 
 .btn-send {
@@ -112,15 +112,15 @@
     padding: 15px;
     border: none;
     border-radius: 12px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: var(--white);
+    background: #e7ad00;
+    color: #13284a;
     font-family: inherit;
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     transition: .3s;
 }
-.btn-send:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(108, 92, 231, .35); }
+.btn-send:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(231, 173, 0, .28); }
 
 .alert-success {
     background: #e7f8ee;

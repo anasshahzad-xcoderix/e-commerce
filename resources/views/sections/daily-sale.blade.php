@@ -22,19 +22,17 @@
                 </div>
 
                 <div class="sale-buy">
-                    <span class="new-price">${{ $newPrice }}</span>
-                    <span class="old-price">${{ $oldPrice }}</span>
+                    <span class="new-price">Rs {{ number_format($newPrice) }}</span>
+                    <span class="old-price">Rs {{ number_format($oldPrice) }}</span>
                     <button class="sale-btn" id="saleBtn">Add lamp to cart</button>
                 </div>
             </div>
 
             <div class="sale-art">
-                <svg viewBox="0 0 200 200">
-                    <polygon points="62,30 138,30 158,92 42,92" fill="#ffc928"/>
-                    <circle cx="100" cy="86" r="9" fill="#fff6b0"/>
-                    <rect x="95" y="92" width="10" height="82" rx="3" fill="#fff"/>
-                    <ellipse cx="100" cy="178" rx="38" ry="10" fill="#fff"/>
-                </svg>
+                <img
+                    src="{{ asset('images/daily-sale-lamp.jpg') }}"
+                    alt="Modern black floor lamp beside a cozy armchair"
+                >
             </div>
 
         </div>

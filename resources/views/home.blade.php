@@ -4,10 +4,11 @@
 
 @section('content')
     @include('sections.hero')
-    @include('sections.best-sellers')
     @include('sections.features')
+    @include('sections.best-sellers')
     @include('sections.categories')
     @include('sections.shop')
+    @include('sections.delivery-promo')
     @include('sections.daily-sale')
     @include('sections.benefits')
     @include('sections.makers')
