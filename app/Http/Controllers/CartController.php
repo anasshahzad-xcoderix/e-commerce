@@ -72,16 +72,16 @@ class CartController extends Controller
    
 
  
-  public function index()
-  {
+
+
+
+public function index()
+{
     [$cart, $subtotal, $shipping] = $this->buildCart();
 
 
     return view('cart.index', compact('cart', 'subtotal', 'shipping'));
-  }
-
-
-
+}
 
 
 public function checkout()

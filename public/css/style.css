@@ -999,6 +999,12 @@ section[id] { scroll-margin-top: 90px; }
 }
 
 
+.sale-btn:hover {
+    background: #fff;
+    transform: translateY(-2px);
+}
+
+
 .sale-art {
     background: #8b4579;
     display: flex;
@@ -1006,6 +1012,9 @@ section[id] { scroll-margin-top: 90px; }
     justify-content: center;
     padding: 0;
 }
+
+
+
 .sale-art img {
     display: block;
     width: 100%;
@@ -1013,6 +1022,8 @@ section[id] { scroll-margin-top: 90px; }
     min-height: 340px;
     object-fit: cover;
 }
+
+
 
     @media (max-width: 800px) {
         .sale-card { grid-template-columns: 1fr; }
@@ -1040,10 +1051,13 @@ section[id] { scroll-margin-top: 90px; }
     }
     
 
+
+
+
 .faq h2 {
     font-size: clamp(30px, 4vw, 46px);
     font-weight: 800;
-    letter-spacing: -1.25px;
+    letter-spacing: -1.25;
     line-height: 1.1;
     margin-bottom: 32px;
 }
@@ -1577,12 +1591,19 @@ section[id] { scroll-margin-top: 90px; }
         box-shadow: 0 12px 25px rgba(31, 122, 109, .3);
     }
 
-    .login-card h1 {
-        font-size: 28px;
-        font-weight: 700;
-        color: #14233b;
-        margin-bottom: 8px;
-    }
+    
+
+
+.logo-card h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #14233b;
+    margin-bottom: 8px;
+}
+
+
+
+
 
     .login-card .login-sub {
         font-size: 15px;
