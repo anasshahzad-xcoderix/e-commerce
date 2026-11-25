@@ -62,6 +62,12 @@ public function aboutus()
     return $this->page('about us', 'About Us');
 }
 
+
+public function percentagecaluclator()
+{
+    return $this->page('percentagecaluclator', 'PercentageCaluclator');
+}
+
     public function contact()
 
     {
@@ -76,7 +82,7 @@ public function aboutus()
         ->where('id', '!=', $product->id)
         ->limit(4)
         ->get();
-
+    
     return view('pages.product', compact('product', 'related'));
 }
 

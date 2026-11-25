@@ -21,6 +21,9 @@ Route::get('/makers', [StoreController::class, 'makers'])->name('makers');
 Route::get('/help', [StoreController::class, 'help'])->name('help');
 Route::get('/contact', [StoreController::class, 'contact'])->name('contact');
 Route::get('/about us', [StoreController::class,'aboutus'])->name('aboutus');
+Route::get('/percentagecaluclator', [StoreController::class, 'percentagecaluclator'])->name('percentagecaluclator');
+
+
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
